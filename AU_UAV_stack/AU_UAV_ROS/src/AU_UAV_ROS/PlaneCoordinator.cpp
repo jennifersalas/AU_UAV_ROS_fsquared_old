@@ -21,6 +21,7 @@ standard constructor
 */
 AU_UAV_ROS::PlaneCoordinator::PlaneCoordinator()
 {
+	ROS_ERROR("PCOORD CONSTRUCTOR");
 	//initialize command message index
 	this->commandIndex = 0;
 	this->isActive = false;
@@ -44,9 +45,11 @@ This function will take a given waypoint and set that as the current and only de
 */
 bool AU_UAV_ROS::PlaneCoordinator::goToPoint(struct AU_UAV_ROS::waypoint receivedPoint, bool isAvoidanceManeuver, bool isNewQueue)
 {
+	ROS_ERROR("PCOORD GO TO POINT");
 	//clear the queues
 	if(isNewQueue)
 	{
+		ROS_ERROR("PCOORD NEW QUEUE");
 		std::list<struct AU_UAV_ROS::waypoint> emptyQueue;
 
 		//always clear the avoidance path if we say to do a new queue
@@ -62,10 +65,12 @@ bool AU_UAV_ROS::PlaneCoordinator::goToPoint(struct AU_UAV_ROS::waypoint receive
 	//add the single waypoint to the specified path
 	if(isAvoidanceManeuver)
 	{
+		ROS_ERROR("PCOORD AVOID 68");
 		this->avoidancePath.push_back(receivedPoint);
 	}
 	else
 	{
+		ROS_ERROR("PCOORD NOT AVOID 73");
 		this->normalPath.push_back(receivedPoint);
 	}
 
@@ -136,6 +141,7 @@ AU_UAV_ROS::Command AU_UAV_ROS::PlaneCoordinator::getPriorityCommand()
 	//check avoidance queue
 	if(!avoidancePath.empty())
 	{
+		ROS_ERROR("PCOORD AVOIDANCE NOT EMPTY 144");
 		//we have an avoidance point, get that one
 		ret.latitude = avoidancePath.front().latitude;
 		ret.longitude = avoidancePath.front().longitude;
@@ -222,6 +228,7 @@ bool AU_UAV_ROS::PlaneCoordinator::handleNewUpdate(AU_UAV_ROS::TelemetryUpdate u
 	//	       Otherwise, check for a new normal waypoint and send it if new.
 	if(!avoidancePath.empty())
 	{
+		ROS_ERROR("PCCORD AV. 231");
 		destination = avoidancePath.front();
 		isCommand = true;
 		isAvoid = true;
@@ -239,6 +246,7 @@ bool AU_UAV_ROS::PlaneCoordinator::handleNewUpdate(AU_UAV_ROS::TelemetryUpdate u
 	//if we have a command to process, process it
 	if(isCommand)
 	{
+		ROS_ERROR("CORRECTIVE COMMAND FROM PCOORD");
 		//the current waypoint is incorrect somehow, send corrective command
 		newCommand->commandHeader.seq = this->commandIndex++;
 		newCommand->commandHeader.stamp = ros::Time::now();

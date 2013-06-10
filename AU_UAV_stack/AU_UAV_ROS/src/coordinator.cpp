@@ -122,7 +122,7 @@ bool goToWaypoint(AU_UAV_ROS::GoToWaypoint::Request &req, AU_UAV_ROS::GoToWaypoi
 		if(planesArray[req.planeID].goToPoint(pointFromService, req.isAvoidanceManeuver, req.isNewQueue))
 		{
 			//success!
-			if (req.isAvoidanceManeuver && req.planeID >= 32 && req.planeID <= 63) {
+			if (req.isAvoidanceManeuver){// && req.planeID >= 32 && req.planeID <= 63) {
 			ROS_ERROR("UAV # %d is performing an avoidance maneuver.", req.planeID);
 			}
 			/*
@@ -131,6 +131,7 @@ bool goToWaypoint(AU_UAV_ROS::GoToWaypoint::Request &req, AU_UAV_ROS::GoToWaypoi
 			*/
 			if(req.isNewQueue)
 			{
+				ROS_ERROR("COORD NEW QUEUE");
 				//get the command
 				AU_UAV_ROS::Command commandToSend = planesArray[req.planeID].getPriorityCommand();
 				commandToSend.planeID = req.planeID;
@@ -145,6 +146,9 @@ bool goToWaypoint(AU_UAV_ROS::GoToWaypoint::Request &req, AU_UAV_ROS::GoToWaypoi
 					ROS_INFO("Sent command to plane #%d: (%f, %f, %f)", commandToSend.planeID, commandToSend.latitude, commandToSend.longitude, commandToSend.altitude);
 				}
 				
+			}
+			else{
+				ROS_ERROR("COORD 151   BADDDDDDDDDDDD i think");
 			}
 			
 			return true;

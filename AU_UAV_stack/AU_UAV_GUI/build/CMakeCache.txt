@@ -152,8 +152,8 @@ CMAKE_SKIP_RPATH:BOOL=NO
 //Path to a program.
 CMAKE_STRIP:FILEPATH=/usr/bin/strip
 
-//No help, variable specified on the command line.
-CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=/opt/ros/fuerte/share/ros/core/rosbuild/rostoolchain.cmake
+//The CMake toolchain file
+CMAKE_TOOLCHAIN_FILE:FILEPATH=/opt/ros/fuerte/share/ros/core/rosbuild/rostoolchain.cmake
 
 //If true, cmake will use relative paths in makefiles and projects.
 CMAKE_USE_RELATIVE_PATHS:BOOL=OFF
@@ -792,6 +792,9 @@ QT_WORLDTIMECLOCKPLUGIN_PLUGIN_RELEASE:FILEPATH=QT_WORLDTIMECLOCKPLUGIN_PLUGIN_R
 ROSPACK_EXE:FILEPATH=/opt/ros/fuerte/bin/rospack
 
 //Path to a file.
+TOOLCHAINCONFIG:FILEPATH=TOOLCHAINCONFIG-NOTFOUND
+
+//Path to a file.
 USERCONFIG:FILEPATH=USERCONFIG-NOTFOUND
 
 //Path to a file.
@@ -1354,7 +1357,7 @@ Q_WS_WIN:INTERNAL=
 //Have symbol Q_WS_X11
 Q_WS_X11:INTERNAL=1
 _rosbuild_EXPORTS:INTERNAL=qt_build;/opt/ros/fuerte/stacks/qt_ros/qt_build
-_rosbuild_cached_flag_time:INTERNAL=1369798911.03
+_rosbuild_cached_flag_time:INTERNAL=1370877163.72
 _roslang_LANGS:INTERNAL=rospy;roscpp;roslisp
 _rospack_deps_manifests_invoke_result:INTERNAL=/opt/ros/fuerte/share/ros/core/rosbuild/manifest.xml;/opt/ros/fuerte/stacks/qt_ros/qt_build/manifest.xml;/opt/ros/fuerte/share/roslang/manifest.xml;/opt/ros/fuerte/share/roscpp/manifest.xml;/opt/ros/fuerte/share/roslib/manifest.xml
 _rospack_msgsrv_gen_invoke_result:INTERNAL=

@@ -104,6 +104,8 @@ void telemetryCallback(const AU_UAV_ROS::TelemetryUpdate::ConstPtr &msg)
 
 	//added this to add robustness for real UAVs (because real UAVs don't return currentWaypointIndex of -1)
 	if (planes.find(planeID) == planes.end() && msg->currentWaypointIndex != -1 || (planeID >= 32 && planeID <= 63 && planes.find(planeID) == planes.end())){ 
+
+		ROS_ERROR("NEW PLNE INSERTED BY COL AV.");
 		/* This is a new plane, so create a new planeObject and 
 		give it the appropriate information */
 		AU_UAV_ROS::PlaneObject newPlane(MPS_SPEED, *msg); 
@@ -132,6 +134,7 @@ void telemetryCallback(const AU_UAV_ROS::TelemetryUpdate::ConstPtr &msg)
 	with new position and destination received from requestWaypointInfoSrv
 	response*/
 	if (requestWaypointInfoSrv.response.latitude == -1000){ /* plane has no waypoints to go to */
+		ROS_ERROR("NO MORE WAYPOINTS");
 		/* Remove in real flights*/
 		planes[planeID].setCurrentLoc(-1000,-1000,400);
 		/* update the time of last update for this plane to acknowledge 
@@ -170,7 +173,7 @@ void telemetryCallback(const AU_UAV_ROS::TelemetryUpdate::ConstPtr &msg)
 		goToWaypointSrv.request.altitude = newWaypoint2.altitude;
 		goToWaypointSrv.request.isAvoidanceManeuver = true; 
 		goToWaypointSrv.request.isNewQueue = true;
-	
+		ROS_ERROR("NEW WAYPOINT FOR SECOND PLANE 176 Col Av.");
 		
 		if (goToWaypointClient.call(goToWaypointSrv)){
 			count++;
@@ -194,7 +197,7 @@ void telemetryCallback(const AU_UAV_ROS::TelemetryUpdate::ConstPtr &msg)
 	goToWaypointSrv.request.altitude = newWaypoint.altitude;
 	goToWaypointSrv.request.isAvoidanceManeuver = true; 
 	goToWaypointSrv.request.isNewQueue = true;
-
+	ROS_ERROR("NEW WAYPOINT FOR FIRST PLANE 200 COL AV.");
 
 	if (goToWaypointClient.call(goToWaypointSrv)){
 		count++;

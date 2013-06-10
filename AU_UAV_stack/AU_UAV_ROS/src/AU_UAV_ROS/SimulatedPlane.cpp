@@ -14,6 +14,10 @@ C) Any collision avoidance waypoints
 #include "AU_UAV_ROS/standardDefs.h"
 #include "AU_UAV_ROS/SimulatedPlane.h"
 
+//DJ_Added for Chris's simulation additions
+//#include <AU_UAV_ROS/Simulation.h>
+
+
 //standard constructor, shouldn't really be used
 AU_UAV_ROS::SimulatedPlane::SimulatedPlane()
 {
@@ -100,6 +104,7 @@ bool AU_UAV_ROS::SimulatedPlane::fillTelemetryUpdate(AU_UAV_ROS::TelemetryUpdate
 	double deltaLat = lat2 - lat1;
 	double deltaLong = long2 - long1;
 	
+/*  These calculations are now done elsewhere
 	//haversine crazy math, should probably be verified further beyond basic testing
 	//calculate distance from current position to destination
 	double a = pow(sin(deltaLat / 2.0), 2);
@@ -111,10 +116,13 @@ bool AU_UAV_ROS::SimulatedPlane::fillTelemetryUpdate(AU_UAV_ROS::TelemetryUpdate
 	double y = sin(deltaLong)*cos(lat2);
 	double x = cos(lat1)*sin(lat2) - sin(lat1)*cos(lat2)*cos(deltaLong);
 	this->bearing = atan2(y, x)*RADIANS_TO_DEGREES;
-	
+*/	
+
+
 	//make sure we're actually traveling somewhere
 	if(this->currentWaypointIndex >= 0)
 	{
+	//	/* This is now calculated elsewhere 
 		//calculate the real bearing based on our maximum angle change
 		//first create a temporary bearing that is the same as bearing but at a different numerical value
 		double tempBearing = -1000;
@@ -158,6 +166,7 @@ bool AU_UAV_ROS::SimulatedPlane::fillTelemetryUpdate(AU_UAV_ROS::TelemetryUpdate
 			if(this->actualBearing > 180) this->actualBearing = this->actualBearing - 360;
 			if(this->actualBearing <= -180) this->actualBearing = this->actualBearing + 360;
 		}
+		//*/
 	
 		//time to calculate the new positions, God help us
 		/*
@@ -174,7 +183,8 @@ bool AU_UAV_ROS::SimulatedPlane::fillTelemetryUpdate(AU_UAV_ROS::TelemetryUpdate
 		   
 		   C = 2.0 * arcsin(sqrt((haversin(c) - haversin(a-b))/(sin(a)*sin(b))))
 		*/
-	
+		
+//		/* THIS IS NOW CALCULATED ELSEWHERE
 		//1) Estimate new latitude using basic trig and this equation
 		this->currentLocation.latitude = lat1*RADIANS_TO_DEGREES + (MPS_SPEED*cos(this->actualBearing*DEGREES_TO_RADIANS))*METERS_TO_LATITUDE;
 		
@@ -194,6 +204,21 @@ bool AU_UAV_ROS::SimulatedPlane::fillTelemetryUpdate(AU_UAV_ROS::TelemetryUpdate
 		{
 			this->currentLocation.longitude -= temp;
 		}
+		//*/
+
+	//DJ_6/7/13_Adding Chris' code for simualtion additions 
+	/*
+	double new_lat,new_long;
+	AU_UAV_ROS::CSimulation::GetInstance().GetDistanceAndBearing(lat1,lat2,
+                                       				     long1,long2,
+								     new_lat,
+								     new_long,
+								     this->actualBearing,
+								     this->bearing,
+								     this->distanceToDestination);
+	this->currentLocation.latitude = new_lat*RADIANS_TO_DEGREES;
+	this->currentLocation.longitude = new_long*RADIANS_TO_DEGREES;
+	*/
 	}
 		
 	//fill out the actual data

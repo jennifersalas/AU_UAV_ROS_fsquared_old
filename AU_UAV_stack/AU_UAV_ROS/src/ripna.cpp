@@ -126,7 +126,10 @@ AU_UAV_ROS::threatContainer AU_UAV_ROS::findGreatestThreat(PlaneObject &plane1, 
 	AU_UAV_ROS::mathVector dDiff;
 	double timeToGo, zeroEffortMiss, distanceBetween, timeToDest;
 	std::map<int,AU_UAV_ROS::PlaneObject>::iterator it;
+
+	int times = 0;
 	for ( it=planes.begin() ; it!= planes.end(); it++ ){
+		times++;
 		/* Unpacking plane to check*/		
 		ID = (*it).first;
 		plane2 = (*it).second;
@@ -172,18 +175,34 @@ AU_UAV_ROS::threatContainer AU_UAV_ROS::findGreatestThreat(PlaneObject &plane1, 
 				/* If you're close to your destination and the other plane isn't
 				much of a threat, then don't avoid it */ 
 				if ( timeToDest < 5.0 && zeroEffortMiss > 3.0*MPS_SPEED ) continue;
+
+
+
+/*
+				double bearingDiff;
+				bearingDiff  fabs(plne1.getCurrentBearing() - planes[ID].getCurrentBearing());
+				if(plane1.findDistance(planes[ID]) > 3.5*MPS_SPEED && bearingDiff < CHATTERING_ANGLE){
+					ROS_ERROR("CHATTER DEFENSE");
+					continue;
+				}
+*/
+
+
+
 				planeToAvoid = ID;
 				mostDangerousZEM = zeroEffortMiss;
 				minimumTimeToGo = timeToGo;			
 			}
 		}
 	}
+	ROS_ERROR("TIMES: %d",times);
 
 	AU_UAV_ROS::threatContainer greatestThreat;
 	greatestThreat.planeID = planeToAvoid;
 	greatestThreat.ZEM = mostDangerousZEM;
 	greatestThreat.timeToGo = minimumTimeToGo;
 
+	ROS_ERROR("PLANE ID: %d      THREAT ID: %d\n",plane1.getID(),planeToAvoid);
 	return greatestThreat;
 }
 
@@ -279,6 +298,7 @@ AU_UAV_ROS::waypoint AU_UAV_ROS::takeDubinsPath(PlaneObject &plane1) {
 	/* If destination is inside circle, must fly opposite direction before we can reach destination*/
 	if (findDistance(circleCenter.latitude, circleCenter.longitude, wp.latitude, wp.longitude) < 
 			minTurningRadius) {
+		ROS_ERROR("DUBIN CHANGE");
 		return calculateWaypoint(plane1, minTurningRadius, !destOnRight);
 	}
 	else {

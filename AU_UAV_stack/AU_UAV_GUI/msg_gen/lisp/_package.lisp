@@ -1,4 +1,4 @@
-(cl:defpackage Google_Maps_CMAKE-msg
+(cl:defpackage AU_UAV_GUI-msg
   (:use )
   (:export
    "<TELEMETRYUPDATE>"
