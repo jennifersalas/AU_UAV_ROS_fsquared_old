@@ -1,6 +1,8 @@
 /*
 Implementation of vmath.h.  For information on how to use these functions, visit vmath.h.  Comments in this file
 are related to implementation, not usage.
+
+test comment for git
 */
 
 #include <math.h>
