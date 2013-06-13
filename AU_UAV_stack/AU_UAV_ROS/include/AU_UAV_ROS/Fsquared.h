@@ -96,7 +96,9 @@ double findFieldAngle(PlaneObject &me, PlaneObject &enemy)
 //		enemy: Plane that is producing the field
 //		fieldAngle: fieldAngle is the angle between the bearing of the plane generating the force to the location
 //		of pobj1, and aAngle is the angle between the bearing of pobj1 and the location of its destination?
-double findFieldAngle(PlaneObject &me, PlaneObject &enemy, double fieldAngle);
+//TODO
+//		Make the function return a coordinate
+double findRelativePosition(PlaneObject &me, PlaneObject &enemy, double fieldAngle);
 
 
 //**********************************************************************************************
@@ -107,6 +109,8 @@ double findFieldAngle(PlaneObject &me, PlaneObject &enemy, double fieldAngle);
 
 //Precondition: motionVector has been normalized
 //Use: Converts from directional vector to a waypoint for a physical plane
+//	   waypoint should be far enough away so that the plane will travel in
+//	   the correct direction but not reach the waypoint
 //Params:
 //		motionVector: Vector describing the direction of motion that the plane should take
 AU_UAV_ROS::waypoint motionVectorToWaypoint_Hardware(mathVector motionVector);
@@ -114,6 +118,8 @@ AU_UAV_ROS::waypoint motionVectorToWaypoint_Hardware(mathVector motionVector);
 
 //Precondition: motionVector has been normalized
 //Use: Converts from directional vector to a waypoint for a simulated plane
+//	   The waypoint represents the position of the simulated UAV in the next
+//	   time step
 //Params:
 //		motionVector: Vector describing the direction of motion that the plane should take
 AU_UAV_ROS::waypoint motionVectorToWaypoint_Software(mathVector motionVector);
