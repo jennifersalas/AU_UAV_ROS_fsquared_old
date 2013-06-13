@@ -4,14 +4,18 @@ Authors: Andrew Cunningham
 
 Description:
 		This file contains definitions of the ForceField object that is required for the F^2 approach
-		(ADD MORE)
+		Currently, it is setup to contain variability of field shape, but not variability of force functions
 
 Date: 6/12/13
+
 
 FUTURE/WORK IN PROGRESS:
 		Add in different field configurations and functions as needed
 
-
+TODO:
+	Create variable force functions within the force field class
+	Possibly create FieldShape and FieldFunction classes and situate them within
+		the ForceField framework
 
 */
 
@@ -26,9 +30,11 @@ FUTURE/WORK IN PROGRESS:
 
 
 
+
+
 /* Description:
- *		This class is the abstract base class from which the specific field type are
- *		derived from.
+ *		This class is the abstract base class from which specific field types are
+ *		derived.
  *
  */
 class ForceField{
@@ -46,20 +52,52 @@ public:
 	//		on a point inside this field
 	//Params:
 	//		positionInField: point at which
-	virtual mathVector findFieldForceMagnitude(Coordinates positionInField) =0;
+	virtual double findFieldForceMagnitude(Coordinates positionInField) =0;
 
 
 	//Precondition: None
 	//Use:
-	//		This method will determine whethher or not coordinates are inside
+	//		This method will determine whether or not coordinates are inside
 	//		this field
 	//Params:
 	//		positionInField: coordinate of the plane that will feel the force
 	//						 relative to the position of the plane generating the field
-	virtual isCoordinatesInMyField(Coordinates positionInField) =0;
+	virtual bool isCoordinatesInMyField(Coordinates positionInField) =0;
 };
 
 
+/* Description:
+ * 			This class contains the ovoid field shape that was used by the 2012 APF group,
+ * 			CURRENTLY USES ONLY ONE FORCE FUNCTION - BIVARIATE NORMAL. SEPERATE SHAPES AND
+ * 			FUNCTIONS LATER
+ *
+ */
+class OvalField : public ForceField{
+public:
+	OvalField();
+	double findFieldForceMagnitude(Coordinates positionInField);
+	bool isCoordinatesInMyField(Coordinates positionInField, double fieldAngle);
+
+private:
+	/* Credit:
+	 * 		Hosea Siu and Miriam Figueroa- the 2012 REU group that worked on APFs & flocking (move this later)
+	 */
+	struct forceVariables
+	{
+		double maxForce;				// maximum force imposed by one plane on another, except when they are in conflict radius
+		// alpha and beta are parameters that define the bivariate normal potential field
+		double alpha;
+		double beta;
+		// these variables define the limits of the independent/swarm leader force function
+		double gamma;
+		double alphaTop;
+		double betaTop;
+		double alphaBot;
+		double betaBot;
+	};
+
+	forceVariables myParams;
+};
 
 
 
