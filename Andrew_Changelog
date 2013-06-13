@@ -1,0 +1,6 @@
+Pobject.h:
+	Added field class as a private member of Pobject
+	Added the findMyFieldMagnitude method as a public method used for 
+	  calling the ForceField method for calculating the magnitude of the
+	  force exerted by a field at a point
+

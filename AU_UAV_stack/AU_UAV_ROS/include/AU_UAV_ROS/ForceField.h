@@ -33,11 +33,21 @@ public:
 		FIELD_SHAPE_TRIANGLE
 	};
 
-	bool isField
+	//Precondition: None
+	//Use:
+	//		This method will calculate the magnitude of the force by this field
+	//		on a point inside this field
+	//Params:
+	//		positionInField: point at which
+	//TODO:
+	//		Ensure that this method will return 0 if the coordinates are not within the field
 
+	mathVector findFieldForceMagnitude(Coordinates positionInField);
 
 private:
 	FIELD_SHAPE_E shape;
+	int paramS
+
 
 
 
