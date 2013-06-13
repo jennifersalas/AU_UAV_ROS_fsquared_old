@@ -53,30 +53,26 @@ INCLUDE_DIRECTORIES(
 #this is for unit-testing
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 #rosbuild_add_gtest(test/PlaneCoordinatorTest test/PlaneCoordinatorTest.cpp)
-#rosbuild_add_gtest(test/standardDefsTest test/StandardDefsTest.cpp)
-#rosbuild_add_gtest(test/XbeeIOTest test/XbeeIOTest.cpp)
+rosbuild_add_gtest(test/standardDefsTest test/StandardDefsTest.cpp)
+rosbuild_add_gtest(test/XbeeIOTest test/XbeeIOTest.cpp)
 
 
 #C++ executables
 #DJ_6/7/13_Edited for wind and GPSError calculations
-#rosbuild_add_executable(simulator src/simulator.cpp src/AU_UAV_ROS/SimulatedPlane.cpp src/AU_UAV_ROS/standardDefs.cpp)
+rosbuild_add_executable(simulator src/simulator.cpp src/AU_UAV_ROS/SimulatedPlane.cpp src/AU_UAV_ROS/standardDefs.cpp)
 #target_link_libraries(simulator Geographic noise)
 
-#rosbuild_add_executable(collisionAvoidance src/collisionAvoidance.cpp src/AU_UAV_ROS/standardDefs.cpp src/standardFuncs.cpp src/planeObject.cpp src/ripna.cpp src/vmath.cpp)
-#rosbuild_add_executable(coordinator src/coordinator.cpp src/AU_UAV_ROS/PlaneCoordinator.cpp src/AU_UAV_ROS/standardDefs.cpp)
-#rosbuild_add_executable(ControlMenu src/ControlMenu.cpp src/AU_UAV_ROS/standardDefs.cpp)
-#rosbuild_add_executable(KMLCreator src/KMLCreator.cpp)
-#rosbuild_add_executable(visualization src/visualization.cpp)
-#rosbuild_add_executable(evaluator src/evaluator.cpp src/AU_UAV_ROS/standardDefs.cpp)
-#rosbuild_add_executable(XbeeIO src/XbeeIO.cpp)
+rosbuild_add_executable(collisionAvoidance src/collisionAvoidance.cpp src/AU_UAV_ROS/standardDefs.cpp src/standardFuncs.cpp src/planeObject.cpp src/ripna.cpp src/vmath.cpp)
+rosbuild_add_executable(coordinator src/coordinator.cpp src/AU_UAV_ROS/PlaneCoordinator.cpp src/AU_UAV_ROS/standardDefs.cpp)
+rosbuild_add_executable(ControlMenu src/ControlMenu.cpp src/AU_UAV_ROS/standardDefs.cpp)
+rosbuild_add_executable(KMLCreator src/KMLCreator.cpp)
+rosbuild_add_executable(visualization src/visualization.cpp)
+rosbuild_add_executable(evaluator src/evaluator.cpp src/AU_UAV_ROS/standardDefs.cpp)
+rosbuild_add_executable(XbeeIO src/XbeeIO.cpp)
 #New - JC
 #There is an easier way to do this if we want to change it. We can just glob all the .cpp files.
-#rosbuild_add_executable(guiInterfacer src/guiInterfacer.cpp src/AU_UAV_ROS/standardDefs.cpp)
-#target_link_libraries(XbeeIO
-#  ${GLIB2_LIBRARY}
-#  ${GTHREAD2_LIBRARY}
-#)
-
-#Library
-#Attempt at making life easier, and only compiling our f^2 library.
-rosbuild_add_library(fsquared src/ForceField.cpp src/Fsquared.cpp src/vmath.cpp src/planeObject.cpp)
+rosbuild_add_executable(guiInterfacer src/guiInterfacer.cpp src/AU_UAV_ROS/standardDefs.cpp)
+target_link_libraries(XbeeIO
+  ${GLIB2_LIBRARY}
+  ${GTHREAD2_LIBRARY}
+)
