@@ -13,8 +13,7 @@ Date: 6/13/13
 
 */
 
-//#include "AU_UAV_ROS/Fsquared.h"
-#include "../../include/AU_UAV_ROS/Fsquared.h"
+#include "AU_UAV_ROS/Fsquared.h"
 
 /*
  * findFieldAngle
