@@ -13,9 +13,10 @@ Date: 6/13/13
 
 
 #include "AU_UAV_ROS/ForceField.h"
-
+/*
 mathVector ForceField::findFieldForceMagnitude(Coordinates positionInField){
 
 
 
 }
+*/

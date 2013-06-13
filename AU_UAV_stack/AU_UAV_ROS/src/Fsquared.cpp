@@ -22,9 +22,9 @@ Date: 6/13/13
  * 			enemy: plane that is producing field
  * returns:		field angle - angle between my bearing and location of enemy plane
  */
-double Fsquared::findFieldAngle(PlaneObject& me, PlaneObject &enemy)	{
+//double fsquared::findFieldAngle(AU_UAV_ROS::PlaneObject& me, AU_UAV_ROS::PlaneObject &enemy)	{
 
-}
+//}
 
 /* Assumptions:
  * 		Only calculates radially repuslive forces from enemy to "me"
@@ -49,9 +49,12 @@ double Fsquared::findFieldAngle(PlaneObject& me, PlaneObject &enemy)	{
  * 		Incorporate "right hand turn" rules
  */
 
-mathVector calculateRepulsiveForce(PlaneObject &me, PlaneObject &enemy){
-	double fieldAngle, rMagnitude, rAngle;
-	Coordinates relativePosition;
+AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy){
+/*
+	
+   ->> debugging still needed
+   	double fieldAngle, rMagnitude, rAngle;
+	fsquared::Coordinates relativePosition;
 
 
 	fieldAngle = findFieldAngle(me, enemy);
@@ -73,4 +76,6 @@ mathVector calculateRepulsiveForce(PlaneObject &me, PlaneObject &enemy){
 		mathVector repulsiveForceVector(0,0);
 		return repulisveForceVector;
 	}
+
+	*/
 }

@@ -15,9 +15,9 @@ FUTURE/WORK IN PROGRESS:
 
 */
 
-
+#include "AU_UAV_ROS/Fsquared.h"	//only for coordinates
 #include "AU_UAV_ROS/vmath.h" 		 //MOVE ME IN
-#include "AU_UAV_ROS/pobject.h"
+#include "AU_UAV_ROS/planeObject.h"
 #include "AU_UAV_ROS/standardDefs.h" //contains waypoint struct
 
 #ifndef FORCEFIELD_H
@@ -40,11 +40,11 @@ public:
 	//Params:
 	//		positionInField: point at which
 
-	mathVector findFieldForceMagnitude(Coordinates positionInField);
+	AU_UAV_ROS::mathVector findFieldForceMagnitude(fsquared::Coordinates positionInField);
 
 private:
 	FIELD_SHAPE_E shape;
-	int paramS
+	int param;
 };
 
 
