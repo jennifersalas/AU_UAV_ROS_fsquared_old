@@ -45,11 +45,18 @@ namespace fsqaured{
 //**********************************************************************************************
 
 
-//Precondition: Assumes that "me" is inside enemy's field
+//Precondition: "Me's" position in relation to enemy's doesn't matter.
 //Use: Calculates the force that the enemy's field exerts on me
 //Params:
 //		me: Plane that is feeling the force
 //		enemy: Plane that is exerting the force
+//IMPLEMENTATION:
+//		
+//		calculate field angle from plane methods
+//		find coordinates relative enemy
+//				
+//
+//todo:		ac
 mathVector calculateRepulsiveForce(PlaneObject &me, PlaneObject &enemy);
 
 
@@ -58,6 +65,7 @@ mathVector calculateRepulsiveForce(PlaneObject &me, PlaneObject &enemy);
 //Params:
 //		me: Plane that is feeling the force
 //		goal_wp: The waypoint that the plane would like to reach
+//todo:		ac
 mathVector calculateAttractiveForce(PlaneObject &me, AU_UAV_ROS::waypoint goal_wp);
 
 
@@ -66,29 +74,6 @@ mathVector calculateAttractiveForce(PlaneObject &me, AU_UAV_ROS::waypoint goal_w
 //Fields
 //**********************************************************************************************
 
-
-
-//Precondition: Assume valid planes
-//Use: Calculates to see if "me" is in the enemy's field
-//Params:
-//		me: Plane that is potentially in enemy's field
-//		enemy: Plane that is producing the field
-//TODO:
-//		make and associate with field object
-//IMPLEMENTATION:
-//		calculate field angle from plane methods
-//		find coordinates relative enemy
-//		call field method to determine if positioning is in enemy's field
-bool inEnemyField(PlaneObject &me, PlaneObject &enemy);
-
-
-//Precondition: Assume valid planes
-//Use: Calculates the relative angle needed to find the relative position of "me" to enemy
-//Params:
-//		me: Plane that is potentially in enemy's field
-//		enemy: Plane that is producing the field
-double findFieldAngle(PlaneObject &me, PlaneObject &enemy)
-
 //Precondition: Assume valid planes
 //Use: Find "me's" position from enemy's POV
 //Params:
@@ -96,9 +81,35 @@ double findFieldAngle(PlaneObject &me, PlaneObject &enemy)
 //		enemy: Plane that is producing the field
 //		fieldAngle: fieldAngle is the angle between the bearing of the plane generating the force to the location
 //		of pobj1, and aAngle is the angle between the bearing of pobj1 and the location of its destination?
+//Returns:	Coordinates of "me" from the enemy's POV. 
 //TODO
 //		Make the function return a coordinate
-double findRelativePosition(PlaneObject &me, PlaneObject &enemy, double fieldAngle);
+//who:		vw
+Coordinates findRelativePosition(PlaneObject &me, PlaneObject &enemy, double fieldAngle);
+
+
+
+//Precondition: Assume valid planes
+//Use: 		Given a pair of coordinates of "me", will see if "me" is located inside
+//		enemy field.
+//Params:
+//		enemy: Plane that is producing the field
+//		locationOfMe: Coordinate location of "me" from the POV of the enemy. 
+//				Calculated by findRelativePosition()
+//TODO:
+//		make and associate with field object
+//who:		ac
+bool inEnemyField(PlaneObject &enemy, Coordinates locationOfMe);
+
+
+
+//Precondition: Assume valid planes
+//Use: Calculates the relative angle needed to find the relative position of "me" to enemy
+//Params:
+//		me: Plane that is potentially in enemy's field
+//		enemy: Plane that is producing the field
+//who:		vw
+double findFieldAngle(PlaneObject &me, PlaneObject &enemy)
 
 
 //**********************************************************************************************
@@ -113,6 +124,7 @@ double findRelativePosition(PlaneObject &me, PlaneObject &enemy, double fieldAng
 //	   the correct direction but not reach the waypoint
 //Params:
 //		motionVector: Vector describing the direction of motion that the plane should take
+//tood:		vw
 AU_UAV_ROS::waypoint motionVectorToWaypoint_Hardware(mathVector motionVector);
 
 
@@ -122,6 +134,8 @@ AU_UAV_ROS::waypoint motionVectorToWaypoint_Hardware(mathVector motionVector);
 //	   time step
 //Params:
 //		motionVector: Vector describing the direction of motion that the plane should take
+//todo: 	vw
+
 AU_UAV_ROS::waypoint motionVectorToWaypoint_Software(mathVector motionVector);
 
 
