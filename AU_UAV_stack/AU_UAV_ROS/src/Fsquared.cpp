@@ -13,8 +13,19 @@ Date: 6/13/13
 
 */
 
-#include "AU_UAV_ROS/Fsquared.h"
+//#include "AU_UAV_ROS/Fsquared.h"
+#include "../../include/AU_UAV_ROS/Fsquared.h"
 
+/*
+ * findFieldAngle
+ * Preconditions:	assumes valid planes
+ * params:		me: plane that is potentially in enemy's field
+ * 			enemy: plane that is producing field
+ * returns:		field angle - angle between my bearing and location of enemy plane
+ */
+double Fsquared::findFieldAngle(PlaneObject& me, PlaneObject &enemy)	{
+
+}
 
 /* Assumptions:
  * 		Only calculates radially repuslive forces from enemy to "me"
