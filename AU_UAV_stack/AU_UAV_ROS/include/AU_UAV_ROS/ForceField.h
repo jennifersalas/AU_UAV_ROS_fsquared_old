@@ -26,6 +26,11 @@ FUTURE/WORK IN PROGRESS:
 
 
 
+/* Description:
+ *		This class is the abstract base class from which the specific field type are
+ *		derived from.
+ *
+ */
 class ForceField{
 public:
 	enum FIELD_SHAPE_E{
@@ -33,18 +38,25 @@ public:
 		FIELD_SHAPE_TRIANGLE
 	};
 
+	virtual ~ForceField();
+
 	//Precondition: Coordinates must be within the field
 	//Use:
 	//		This method will calculate the magnitude of the force by this field
 	//		on a point inside this field
 	//Params:
 	//		positionInField: point at which
+	virtual mathVector findFieldForceMagnitude(Coordinates positionInField) =0;
 
-	mathVector findFieldForceMagnitude(Coordinates positionInField);
 
-private:
-	FIELD_SHAPE_E shape;
-	int paramS
+	//Precondition: None
+	//Use:
+	//		This method will determine whethher or not coordinates are inside
+	//		this field
+	//Params:
+	//		positionInField: coordinate of the plane that will feel the force
+	//						 relative to the position of the plane generating the field
+	virtual isCoordinatesInMyField(Coordinates positionInField) =0;
 };
 
 
