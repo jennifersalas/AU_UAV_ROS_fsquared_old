@@ -3,7 +3,7 @@ Authors: Andrew Cunningham
 		 Victoria Wu
 
 Description:
-		This is an implementation of the ForceField object that is required for the F^2 approach
+		This file contains definitions of the ForceField object that is required for the F^2 approach
 		(ADD MORE)
 
 Date: 6/12/13
@@ -33,29 +33,18 @@ public:
 		FIELD_SHAPE_TRIANGLE
 	};
 
-	//Precondition: None
+	//Precondition: Coordinates must be within the field
 	//Use:
 	//		This method will calculate the magnitude of the force by this field
 	//		on a point inside this field
 	//Params:
 	//		positionInField: point at which
-	//TODO:
-	//		Ensure that this method will return 0 if the coordinates are not within the field
 
 	mathVector findFieldForceMagnitude(Coordinates positionInField);
 
 private:
 	FIELD_SHAPE_E shape;
 	int paramS
-
-
-
-
-
-
-
-
-
 };
 
 

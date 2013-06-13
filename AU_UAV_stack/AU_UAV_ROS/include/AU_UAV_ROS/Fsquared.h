@@ -90,7 +90,7 @@ Coordinates findRelativePosition(PlaneObject &me, PlaneObject &enemy, double fie
 
 
 //Precondition: Assume valid planes
-//Use: 		Given a pair of coordinates of "me", will see if "me" is located inside
+//Use: 	Given a pair of coordinates of "me", will see if "me" is located inside
 //		enemy field.
 //Params:
 //		enemy: Plane that is producing the field
