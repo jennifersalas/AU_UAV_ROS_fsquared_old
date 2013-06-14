@@ -49,9 +49,12 @@ namespace AU_UAV_ROS {
             /* Find distance between this plane and another plane's latitude/longitude */
             double findDistance(double lat2, double lon2) const;
 
-            /* Find Cartesian angle between this plane and another plane */
+            /* Find Cartesian angle between this plane and another plane,
+	     * with this plane as origin 
+		Returns value from [-pi, pi] radians*/
             double findAngle(const PlaneObject& plane) const;
-            /* Find Cartesian angle between this plane and another plane's latitude/longitude */
+            /* Find Cartesian angle between this plane and another plane's latitude/longitude 
+		Returns value from [-pi, pi] radians*/
             double findAngle(double lat2, double lon2) const;
 
             /* Overloaded equality operator */
@@ -65,7 +68,7 @@ namespace AU_UAV_ROS {
             int id;
             double collisionRadius;
             double targetBearing;		/* get bearing to destination */
-            double currentBearing;		/* get current bearing in the air */
+            double currentBearing;		/* get current bearing in the air, north is zero and goes to 359 in cw direction */
             double speed;
             double lastUpdateTime;
             AU_UAV_ROS::coordinate previousLoc;	/*used to calculate currentBearing*/

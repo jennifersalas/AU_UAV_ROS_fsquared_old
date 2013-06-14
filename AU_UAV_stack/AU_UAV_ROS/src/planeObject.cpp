@@ -159,13 +159,16 @@ double AU_UAV_ROS::PlaneObject::findDistance(double lat2, double lon2) const {
 }
 
 /* Find Cartesian angle between this plane and another plane, using this plane
-as the origin */
+as the origin
+Returns value from [-pi, pi] radians*/
 double AU_UAV_ROS::PlaneObject::findAngle(const AU_UAV_ROS::PlaneObject& plane) const {
 	return this->findAngle(plane.currentLoc.latitude, plane.currentLoc.longitude);
 }
 
 /* Find Cartesian angle between this plane and another plane's latitude/longitude 
-using this plane as the origin */
+using this plane as the origin
+Returns value from [-pi, pi] radians
+*/
 double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
 	double xdiff = (lon2 - this->currentLoc.longitude)*DELTA_LON_TO_METERS;
 	double ydiff = (lat2 - this->currentLoc.latitude)*DELTA_LAT_TO_METERS;
