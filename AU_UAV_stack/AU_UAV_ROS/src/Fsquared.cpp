@@ -20,11 +20,27 @@ Date: 6/13/13
  * Preconditions:	assumes valid planes
  * params:		me: plane that is potentially in enemy's field
  * 			enemy: plane that is producing field
- * returns:		field angle - angle between my bearing and location of enemy plane
+ * returns:		field angle - angle between enemy's bearing and my location.
+ * 				0 < x < 180 = to enemy's right
+ * 				-180 < x < 0= to enemy's left 
+ *
+ * note: Different from AU_UAV_ROS::PlaneObject::findAngle(). FindAngle finds
+ * the angle between the relative position vector from one plane to another and the
+ * x axis in a global, absolute x/y coordinate system based on latitude and
+ * longitude.
  */
-//double fsquared::findFieldAngle(AU_UAV_ROS::PlaneObject& me, AU_UAV_ROS::PlaneObject &enemy)	{
+double fsquared::findFieldAngle(AU_UAV_ROS::PlaneObject& me, AU_UAV_ROS::PlaneObject &enemy)	{
 
-//}
+	//Make two vectors - one representing bearing of enemy plane
+	//		     the other representing relative position from
+	//		     enemy to me
+	AU_UAV_ROS::mathVector enemyBearing(1, enemy.getCurrentBearing()); 
+	AU_UAV_ROS::mathVector positionToMe(1, enemy.findAngle(me));
+
+
+	//Find angle between two vectors
+	return enemyBearing.findAngleBetween(positionToMe); 
+}
 
 /* Assumptions:
  * 		Only calculates radially repuslive forces from enemy to "me"
