@@ -62,8 +62,12 @@ double AU_UAV_ROS::mathVector::dotProduct(const AU_UAV_ROS::mathVector& mV){
  */
 double AU_UAV_ROS::mathVector::findAngleBetween(const AU_UAV_ROS::mathVector& mV)	{
 	double rawDifference, finalAngle;
-	if(this->direction > mV.direction)	{
-		rawDifference = this->direction - mV.direction;
+	
+	//Force angles to be [0,360]
+	double this_direction = forceAngle360(this->direction);
+	double mV_direction = forceAngle360(mV.direction);
+	if(this_direction > mV_direction)	{
+		rawDifference = this_direction- mV_direction;
 		//Other is CCW from this
 		if(rawDifference > 180)
 			finalAngle = -(360 - rawDifference); 
@@ -72,7 +76,7 @@ double AU_UAV_ROS::mathVector::findAngleBetween(const AU_UAV_ROS::mathVector& mV
 			finalAngle = rawDifference;
 	}
 	else	{
-		rawDifference = mV.direction - this->direction;
+		rawDifference = mV_direction - this_direction;
 		//Other is CW from this
 		if(rawDifference > 180)	
 			finalAngle = (360 - rawDifference);

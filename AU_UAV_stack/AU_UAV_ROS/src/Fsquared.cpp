@@ -34,7 +34,7 @@ double fsquared::findFieldAngle(AU_UAV_ROS::PlaneObject& me, AU_UAV_ROS::PlaneOb
 	//Make two vectors - one representing bearing of enemy plane
 	//		     the other representing relative position from
 	//		     enemy to me
-	AU_UAV_ROS::mathVector enemyBearing(1, enemy.getCurrentBearing()); 
+	AU_UAV_ROS::mathVector enemyBearing(1, toCartesian(enemy.getCurrentBearing())); 
 	AU_UAV_ROS::mathVector positionToMe(1, enemy.findAngle(me));
 
 

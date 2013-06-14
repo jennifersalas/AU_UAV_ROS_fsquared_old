@@ -51,10 +51,10 @@ namespace AU_UAV_ROS {
 
             /* Find Cartesian angle between this plane and another plane,
 	     * with this plane as origin 
-		Returns value from [-pi, pi] radians*/
+		Returns value from [-180 , 180] degrees*/
             double findAngle(const PlaneObject& plane) const;
             /* Find Cartesian angle between this plane and another plane's latitude/longitude 
-		Returns value from [-pi, pi] radians*/
+		Returns value from [-180 , 180] degrees*/
             double findAngle(double lat2, double lon2) const;
 
             /* Overloaded equality operator */
