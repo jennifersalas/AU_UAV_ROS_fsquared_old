@@ -56,6 +56,14 @@ double AU_UAV_ROS::mathVector::dotProduct(const AU_UAV_ROS::mathVector& mV){
 
 }
 
+/*Find angle between two vectors, returns degrees */
+//NEEDS TO BE TESTEEEED VW 6/14
+double AU_UAV_ROS::mathVector::findAngleBetween(const AU_UAV_ROS::mathVector& mV)	{
+	double dotProduct = this->dotProduct(mV);
+	double angleInRadians = acos(dotProduct/(this->magnitude * mV.magnitude));
+	return angleInRadians * 180.0 / PI;
+}
+
 const AU_UAV_ROS::mathVector AU_UAV_ROS::mathVector::operator+(const AU_UAV_ROS::mathVector& mV) const {
 	mathVector newVector(*this); /* Copy vector */
 	newVector += mV; /* Use += to assign */
