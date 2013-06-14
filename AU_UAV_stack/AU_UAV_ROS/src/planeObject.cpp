@@ -26,7 +26,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(void) {
 	this->destination.altitude = 0.0;
 	this->lastUpdateTime = ros::Time::now().toSec();
 	this->collisionRadius = 0.0;
-
+	this->setField(0,0); //initialize field to default configuration
 }
 /* Explicit value constructor using TelemetryUpdate */
 AU_UAV_ROS::PlaneObject::PlaneObject(double cRadius, const AU_UAV_ROS::TelemetryUpdate &msg) {
@@ -46,7 +46,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(double cRadius, const AU_UAV_ROS::Telemetry
 	this->destination.altitude = msg.destAltitude;
 	this->lastUpdateTime = ros::Time::now().toSec();
 	this->collisionRadius = cRadius;
-
+	this->setField(0,0); //initialize field to default configuration
 }
 
 /* mutator functions to update member variables */
@@ -173,6 +173,24 @@ double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
 	return atan2(ydiff, xdiff);
 }
 
+/*This method will adjust the field of the plane to specificiations provided by the arguements
+ * TODO:
+ * 		Enable choosing multiple field setups, this method will currently only call one field type
+ */
+void setField(int encodedFieldShape, int encodedFieldFunction){
+	planeField = new OvalField();
+}
+
+
+/* Finds the magnitude of the force that this plane's field exerts at a relative coordinate*/
+double AU_UAV_ROS::findMyFieldForceMagnitude(Coordinates relativePosition){
+	return planeField->findFieldForceMagnitude(relativePosition);
+}
+
+/* Determines if the set of coordinates lie within this plane's field */
+bool isInMyField(Coordinates relativePosition){
+	return planeField->isCoordinatesInMyField(relativePosition, fieldAngle);
+}
 
 AU_UAV_ROS::PlaneObject& AU_UAV_ROS::PlaneObject::operator=(const AU_UAV_ROS::PlaneObject& plane) {
 
@@ -198,3 +216,4 @@ AU_UAV_ROS::PlaneObject& AU_UAV_ROS::PlaneObject::operator=(const AU_UAV_ROS::Pl
 
 	return *this;
 }
+

@@ -21,8 +21,9 @@ TODO:
 
 
 #include "AU_UAV_ROS/vmath.h" 		 //MOVE ME IN
-#include "AU_UAV_ROS/pobject.h"
+#include "AU_UAV_ROS/planeObject.h"
 #include "AU_UAV_ROS/standardDefs.h" //contains waypoint struct
+#include "AU_UAV_ROS/Fsquared.h"     //contains Coordinates struct
 
 #ifndef FORCEFIELD_H
 #define FORCEFIELD_H

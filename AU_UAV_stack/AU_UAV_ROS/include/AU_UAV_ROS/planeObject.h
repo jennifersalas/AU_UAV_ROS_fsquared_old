@@ -6,6 +6,7 @@
 #include "AU_UAV_ROS/TelemetryUpdate.h"
 #include "AU_UAV_ROS/standardDefs.h"
 #include "AU_UAV_ROS/standardFuncs.h"
+#include "AU_UAV_ROS/ForceField.h"
 
 namespace AU_UAV_ROS {
 
@@ -60,6 +61,18 @@ namespace AU_UAV_ROS {
             /* Returns true if a plane object is within the cRadius meters of this plane object, false otherwise */
             bool isColliding(const PlaneObject& planeObj) const;
 
+            /*************************************************************************************************
+            Field methods
+            *************************************************************************************************/
+            /*This method will adjust the field of the plane to specificiations provided by the arguements*/
+            void setField(int encodedFieldShape, int encodedFieldFunction);
+
+            /* Finds the magnitude of the force that this plane's field exerts at a relative coordinate*/
+            double findMyFieldForceMagnitude(Coordinates relativePosition);
+
+            /* Determines if the set of coordinates lie within this plane's field */
+            bool isInMyField(Coordinates relativePosition,double fieldAngle);
+
         private:
             /* Private data members */
             int id;
@@ -71,6 +84,7 @@ namespace AU_UAV_ROS {
             AU_UAV_ROS::coordinate previousLoc;	/*used to calculate currentBearing*/
             AU_UAV_ROS::coordinate currentLoc;
             AU_UAV_ROS::waypoint destination;
+            ForceField * planeField;	/*Points to field object that handles field calls*/
     };
 };
 
