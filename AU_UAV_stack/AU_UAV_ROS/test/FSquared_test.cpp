@@ -9,8 +9,35 @@
 
 //what are we testing
 #include "AU_UAV_ROS/vmath.h"
-
+#include "AU_UAV_ROS/planeObject.h"
+#include "AU_UAV_ROS/Fsquared.h"
 namespace	{
+class F_Squared_tester: public ::testing::Test	{
+
+	protected:
+		F_Squared_tester()	{
+			enemy.setCurrentLoc(0,0,0);	
+			enemy.setCurrentBearing(0);	//going north	
+
+			northPlane.setCurrentLoc(0, 100, 0);
+			northPlane.setCurrentBearing(0);
+			eastPlane.setCurrentLoc(100, 0, 0);
+			eastPlane.setCurrentBearing(0);
+			southPlane.setCurrentLoc(0, -100, 0);
+			southPlane.setCurrentBearing(0);
+			westPlane.setCurrentLoc(-100,0 , 0);
+			westPlane.setCurrentBearing(0);
+		}
+
+	AU_UAV_ROS::PlaneObject enemy;
+	AU_UAV_ROS::PlaneObject northPlane;
+	AU_UAV_ROS::PlaneObject eastPlane;
+	AU_UAV_ROS::PlaneObject westPlane;
+	AU_UAV_ROS::PlaneObject southPlane;
+
+};
+
+
 class VectorStuff : public ::testing::Test	{
 
 	protected:
@@ -44,6 +71,7 @@ TEST_F(VectorStuff, findingAngle)	{
 	//sanity check
 	EXPECT_EQ(0, south.findAngleBetween(south));	
 }
+
 
 
 }
