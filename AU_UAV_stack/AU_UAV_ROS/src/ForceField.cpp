@@ -7,52 +7,105 @@ Description:
 		(ADD MORE)
 
 Date: 6/13/13
-
-
 */
 
 
 #include "AU_UAV_ROS/ForceField.h"
 
-
-//Construct field to have only one shape and one force function for now
-OvalField::OvalField(){
-	myParams.maxForce = 4000;
-	myParams.alpha = .00129;
-	myParams.beta = .000850;
-	myParams.gamma = 1500;
-	myParams.alphaTop = .5;
-	myParams.betaTop = .25;
-	myParams.betaBot = 1.6;
-
-}
+/**************************************************************************
+ * 								FORCE FIELD								  *
+ **************************************************************************
+ The following methods are members of the ForceField object which carries
+ a FieldShape and a FieldFunction */
 
 
-/*
- * Description:
+
+/* Default constructor, initializes a ForceField with an oval shape and a
+ * bivariate normal function
+ *
+ * TODO:
+ * 		Create a constructor that enables choosing a field and a shape
  */
-double OvalField::findFieldForceMagnitude(Coordinates positionInField){
-	if(isCoordinatesInMyField(positionInField))
-		return forceVars.maxForce * exp(-forceVars.alpha*pow(x,2)-forceVars.beta*pow(y,2));
-	else
-		return 0;
+ForceField::ForceField(){
+	myShape = new OvalField();
+	myFunction = new BivariateNormal();
 }
-/*
+
+/* areCoordinatesInMyField
+ * Description:
+ * 		Calls the ForceField's FieldShape member to determine whether or not
+ * 		a relative coordinate lies within this ForceField's zone of influence
+ */
+bool ForceField::areCoordinatesInMyField(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle){
+	return myShape->areCoordinatesInThisShape(positionInField, fieldAngle, planeAngle);
+}
+
+/* findForceMagnitude
+ * Description:
+ * 		Calls the ForceField's FieldFunction member to determine the force exerted
+ * 		by the ForceField on a set of coordiates.
+ * 	Assumptions:
+ * 		Coordinates are within the field shape
+ */
+double ForceField::findForceMagnitude(fsquared::relativeCoordinates positionInField){
+		return myFunction->findFieldFunctionMagnitude(positionInField);
+}
+
+
+
+/**************************************************************************
+ * 								SHAPES									  *
+ **************************************************************************/
+
+
+/*	Constructor for an oval field
+ * 	TODO:
+ * 		make another constructor that allows choosing constants
  *
  */
-bool OvalField::isCoordinatesInMyField(Coordinates positionInField, double fieldAngle){
+OvalField::OvalField(){
+	shapeParams.gamma = 1500;
+	shapeParams.alphaTop = .5;
+	shapeParams.betaTop = .25;
+	shapeParams.betaBot = 1.6;
+}
+
+bool OvalField::areCoordinatesInThisShape(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle){
 	int x = positionInField.x;
 	int y = positionInField.y;
 	if (fieldAngle > 90 && fieldAngle <270){
 		// plane generating the force is behind, therefore use the bottom boundary
-		double forceLimit = -sqrt((forceVars.gamma-(forceVars.alphaBot*pow(x,2)))/forceVars.betaBot);
+		double forceLimit = -sqrt((shapeParams.gamma-(shapeParams.alphaBot*pow(x,2)))/shapeParams.betaBot);
 		if (y>forceLimit) return true;
 		else return false;
 	}
 	else{
 		// plane generating the force is in front, therefore use the top boundary
-		double forceLimit = sqrt((forceVars.gamma-(forceVars.alphaTop*pow(x,2)))/forceVars.betaTop);
+		double forceLimit = sqrt((shapeParams.gamma-(shapeParams.alphaTop*pow(x,2)))/shapeParams.betaTop);
 		if (y<forceLimit) return true;
 		else return false;
 	}
 }
+
+
+/**************************************************************************
+ * 								Functions								  *
+ **************************************************************************
+
+/* Constructor for bivariate normal function
+ * TODO:
+ * 		make another constructor that allows choosing constants
+ */
+BivariateNormal::BivariateNormal(){
+	functionParams.maxForce = 4000;
+	functionParams.alpha = .00129;
+	functionParams.beta = .000850;
+}
+
+double BivariateNormal::findFieldFunctionMagnitude(fsquared::relativeCoordinates positionInField){
+	int x = positionInField.x;
+	int y = positionInField.y;
+	return functionParams.maxForce * exp(-functionParams.alpha*pow(x,2)-functionParams.beta*pow(y,2));
+}
+
+
