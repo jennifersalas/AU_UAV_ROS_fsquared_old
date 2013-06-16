@@ -29,7 +29,13 @@ namespace AU_UAV_ROS{
             /* Dot-product defined */
             double dotProduct(const mathVector& mV);
 
-            /* Overloaded addition operators. Used to add two vectors. */
+	    /* Find angle between two vectors. 
+	     * -180 < x <0 - mV is CCW of this
+	     *  0 < x < 180 - mV is CW of this
+	     */ 
+	    double findAngleBetween(const mathVector& mV);
+            
+	    /* Overloaded addition operators. Used to add two vectors. */
             const mathVector operator+(const mathVector& mV) const;
             mathVector& operator+=(const mathVector& mV);
         
