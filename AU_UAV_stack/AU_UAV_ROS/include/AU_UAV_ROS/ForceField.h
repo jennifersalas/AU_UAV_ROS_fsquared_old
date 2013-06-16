@@ -11,48 +11,57 @@ Date: 6/12/13
 
 FUTURE/WORK IN PROGRESS:
 		Add in different field configurations and functions as needed
-
-TODO:
-	Create variable force functions within the force field class
-	Possibly create FieldShape and FieldFunction classes and situate them within
-		the ForceField framework
-
 */
-
-#include "AU_UAV_ROS/Fsquared.h"	//only for coordinates
-#include "AU_UAV_ROS/vmath.h" 		 //MOVE ME IN
-#include "AU_UAV_ROS/planeObject.h"
-#include "AU_UAV_ROS/standardDefs.h" //contains waypoint struct
 
 #ifndef FORCEFIELD_H
 #define FORCEFIELD_H
 
+#include "AU_UAV_ROS/Fsquared.h"	 //only for coordinates
+#include "AU_UAV_ROS/vmath.h"
+#include "AU_UAV_ROS/standardDefs.h" //contains waypoint struct
+
+//Forward Declarations of classes
+class FieldShape;
+class FieldFunction;
 
 
 
+/**************************************************************************
+ * 								FORCE FIELD								  *
+ **************************************************************************/
 
 
 /* Description:
- *		This class is the abstract base class from which specific field types are
- *		derived.
- *
+ * 		This class describes an instance of an APF and is comprised of
+ *			two subclasses: a FieldShape and a FieldFunction
  */
 class ForceField{
 public:
-	enum FIELD_SHAPE_E{
-		FIELD_SHAPE_OVAL,
-		FIELD_SHAPE_TRIANGLE
-	};
+	//Constructor, defaults to creating an oval field with a bivariate normal function
+	ForceField();
 
-	virtual ~ForceField();
 
-	//Precondition: Coordinates must be within the field
-	//Use:
-	//		This method will calculate the magnitude of the force by this field
-	//		on a point inside this field
-	//Params:
-	//		positionInField: point at which
-	virtual double findFieldForceMagnitude(Coordinates positionInField) =0;
+	bool areCoordinatesInMyField(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle);
+	double findForceMagnitude(fsquared::relativeCoordinates positionInField);
+
+private:
+	FieldShape * myShape;
+	FieldFunction * myFunction;
+};
+
+
+
+/**************************************************************************
+ * 								SHAPES									  *
+ **************************************************************************/
+
+/* Description:
+ * 		This class is an abstract base class from which all field shapes are derived
+ */
+
+class FieldShape{
+public:
+	virtual ~FieldShape();
 
 
 	//Precondition: None
@@ -62,33 +71,42 @@ public:
 	//Params:
 	//		positionInField: coordinate of the plane that will feel the force
 	//						 relative to the position of the plane generating the field
-	virtual bool isCoordinatesInMyField(Coordinates positionInField) =0;
+	//		fieldAngle: bearing of the plane generating the field - angle between the plane
+	//					genereating the field and the plane that will feel the force
+	//		planeAngle:	angle between the two planes, calculated starting from the generating
+	//					plane and going to the plane that will feel the force
+
+	virtual bool areCoordinatesInThisShape(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle) =0;
+
+
+
+	/*	Precondition: positionInField is inside the field
+	 * 	Use:
+	 * 		This method will calculate how far from the outer limit of the field
+	 * 			a set of points is
+	 * 		This method can be used to build field functions that are dependent
+	 * 			on their field shape
+	 */
+	virtual double distanceToLimit(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle);
 };
+
 
 
 /* Description:
  * 			This class contains the ovoid field shape that was used by the 2012 APF group,
- * 			CURRENTLY USES ONLY ONE FORCE FUNCTION - BIVARIATE NORMAL. SEPERATE SHAPES AND
- * 			FUNCTIONS LATER
- *
  */
-class OvalField : public ForceField{
+class OvalField : public FieldShape{
 public:
 	OvalField();
-	double findFieldForceMagnitude(Coordinates positionInField);
-	bool isCoordinatesInMyField(Coordinates positionInField, double fieldAngle);
+	bool areCoordinatesInThisShape(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle);
 
 private:
 	/* Credit:
 	 * 		Hosea Siu and Miriam Figueroa- the 2012 REU group that worked on APFs & flocking (move this later)
 	 */
-	struct forceVariables
+	struct shapeVariables
 	{
-		double maxForce;				// maximum force imposed by one plane on another, except when they are in conflict radius
-		// alpha and beta are parameters that define the bivariate normal potential field
-		double alpha;
-		double beta;
-		// these variables define the limits of the independent/swarm leader force function
+		// these variables define the limits of the independent force function
 		double gamma;
 		double alphaTop;
 		double betaTop;
@@ -96,27 +114,49 @@ private:
 		double betaBot;
 	};
 
-	forceVariables myParams;
+	shapeVariables shapeParams;
 };
 
 
 
 
 
+/**************************************************************************
+ * 								Functions								  *
+ **************************************************************************
+ *		Force is only calculated if the point is in a field shape 		  *
+ **************************************************************************/
 
 
 
+/* Description:
+ * 		This class is an abstract base class from which all field functions are derived
+ */
+class FieldFunction{
+public:
+	virtual ~FieldFunction();
+	virtual double findFieldFunctionMagnitude(fsquared::relativeCoordinates positionInField) =0;
+};
+
+/*	Function: Bivariate Normal
+ * 	Equation: F = Fmax * exp(-alpha*x^2 -beta*y^2)
+ */
+class BivariateNormal : public FieldFunction{
+public:
+	BivariateNormal();
+	double findFieldFunctionMagnitude(fsquared::relativeCoordinates positionInField);
 
 
+private:
+	struct forceVariables{
+		double maxForce;				// maximum force imposed by one plane on another, except when they are in conflict radius
+		// alpha and beta are parameters that define the bivariate normal potential field
+		double alpha;
+		double beta;
+	};
 
-
-
-
-
-
-
-
-
+	forceVariables functionParams;
+};
 
 
 
