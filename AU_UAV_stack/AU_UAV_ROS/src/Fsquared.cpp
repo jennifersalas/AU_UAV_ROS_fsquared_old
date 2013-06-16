@@ -14,6 +14,9 @@ Date: 6/13/13
 */
 
 #include "AU_UAV_ROS/Fsquared.h"
+#include "AU_UAV_ROS/planeObject.h"
+#define ATTRACTIVE_FORCE 100
+
 
 /*
  * findFieldAngle
@@ -54,7 +57,7 @@ AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject
 	
    ->> debugging still needed
    	double fieldAngle, rMagnitude, rAngle;
-	fsquared::Coordinates relativePosition;
+	fsquared::relativeCoordinates relativePosition;
 
 
 	fieldAngle = findFieldAngle(me, enemy);
@@ -65,7 +68,7 @@ AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject
 	//if "me" is in enemy field
 	if(insideEnemyField){
 		//calculate the force exerted by the field on "me"
-		rMagnitude = enemy.findMyFieldForceMagnitude(relativePosition);
+		rMagnitude = enemy.getField()->findFieldForceMagnitude(relativePosition);
 		//calculate the angle of the force exerted by the field onto me
 		rAngle = toCartesian(enemy.findAngle(me) - 180);
 		mathVector repulsiveForceVector(rMagnitude, rAngle);
@@ -78,4 +81,31 @@ AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject
 	}
 
 	*/
+}
+
+/* Assumptions:
+ * 		The magnitude of the attractive force to the waypoint is defined correctly
+ *
+ * Pseudocode:
+ * 		Find angle to waypoint
+ * 		Set magnitude of attractive force
+ * 		Return force vector
+ *
+ * Credit:
+ * 		Derived from 2012 APF Group
+ *
+ */
+
+AU_UAV_ROS::mathVector calculateAttractiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::waypoint goal_wp){
+	double aAngle, aMagnitude, destLat, destLon, currentLat, currentLon;
+	//obtain current location by accessing PlaneObject's current coordinate
+	currentLat = me.getCurrentLoc().latitude;
+	currentLon = me.getCurrentLoc().longitude;
+	destLat = goal_wp.latitude;
+	destLon = goal_wp.longitude;
+	aAngle = toCartesian(findAngle(currentLat, currentLon, destLat, destLon));
+	aMagnitude = ATTRACTIVE_FORCE;
+	//construct the attractrive force vector and return it
+	AU_UAV_ROS::mathVector attractiveForceVector(aMagnitude, aAngle);
+	return attractiveForceVector;
 }
