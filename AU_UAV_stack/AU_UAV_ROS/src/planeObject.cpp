@@ -5,8 +5,9 @@
 #include "ros/ros.h"
 #include "AU_UAV_ROS/planeObject.h"
 #include "AU_UAV_ROS/SimulatedPlane.h"
-#include <math.h>
 #include "AU_UAV_ROS/standardFuncs.h" /* for PI, EARTH_RADIUS in meters */
+#include "AU_UAV_ROS/ForceField.h"
+#include <math.h>
 
 /* Implementation of the default constructor: Member variables are set to zero */
 AU_UAV_ROS::PlaneObject::PlaneObject(void) {
@@ -177,20 +178,24 @@ double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
  * TODO:
  * 		Enable choosing multiple field setups, this method will currently only call one field type
  */
-void setField(int encodedFieldShape, int encodedFieldFunction){
-	planeField = new OvalField();
+void AU_UAV_ROS::PlaneObject::setField(int encodedFieldShape, int encodedFieldFunction){
+	planeField = new ForceField();
 }
 
+ForceField* AU_UAV_ROS::PlaneObject::getField(){
+	return planeField;
+}
 
-/* Finds the magnitude of the force that this plane's field exerts at a relative coordinate*/
-double AU_UAV_ROS::findMyFieldForceMagnitude(Coordinates relativePosition){
+/*
+double AU_UAV_ROS::PlaneObject::findMyFieldForceMagnitude(fsquared::relativeCoordinates relativePosition){
 	return planeField->findFieldForceMagnitude(relativePosition);
 }
 
-/* Determines if the set of coordinates lie within this plane's field */
-bool isInMyField(Coordinates relativePosition){
-	return planeField->isCoordinatesInMyField(relativePosition, fieldAngle);
+
+bool AU_UAV_ROS::PlaneObject::isInMyField(fsquared::relativeCoordinates relativePosition, double fieldAngle){
+	return planeField->isrelativeCoordinatesInMyField(relativePosition, fieldAngle);
 }
+*/
 
 AU_UAV_ROS::PlaneObject& AU_UAV_ROS::PlaneObject::operator=(const AU_UAV_ROS::PlaneObject& plane) {
 

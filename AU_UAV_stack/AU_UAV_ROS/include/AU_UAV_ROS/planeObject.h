@@ -6,6 +6,7 @@
 #include "AU_UAV_ROS/TelemetryUpdate.h"
 #include "AU_UAV_ROS/standardDefs.h"
 #include "AU_UAV_ROS/standardFuncs.h"
+#include "AU_UAV_ROS/Fsquared.h"
 #include "AU_UAV_ROS/ForceField.h"
 
 namespace AU_UAV_ROS {
@@ -64,15 +65,20 @@ namespace AU_UAV_ROS {
             /*************************************************************************************************
             Field methods
             *************************************************************************************************/
+
+            /*Field Accessor, will return the plane's field*/
+            ForceField* getField();
+
             /*This method will adjust the field of the plane to specificiations provided by the arguements*/
             void setField(int encodedFieldShape, int encodedFieldFunction);
 
-            /* Finds the magnitude of the force that this plane's field exerts at a relative coordinate*/
-            double findMyFieldForceMagnitude(Coordinates relativePosition);
+            /*
+            /* Finds the magnitude of the force that this plane's field exerts at a relative coordinate/
+            double findMyFieldForceMagnitude(fsquared::relativeCoordinates relativePosition);
 
-            /* Determines if the set of coordinates lie within this plane's field */
-            bool isInMyField(Coordinates relativePosition,double fieldAngle);
-
+            /* Determines if the set of relativeCoordinates lie within this plane's field /
+            bool isInMyField(fsquared::relativeCoordinates relativePosition, double fieldAngle);
+            */
         private:
             /* Private data members */
             int id;
