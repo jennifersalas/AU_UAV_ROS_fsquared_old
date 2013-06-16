@@ -26,15 +26,18 @@ Organize in nodes for hardware
 
 */
 
+#ifndef FSQUARED_H
+#define FSQUARED_H
 
 #include "AU_UAV_ROS/vmath.h" 		 //MOVE ME IN
-#include "AU_UAV_ROS/planeObject.h"
 #include "AU_UAV_ROS/standardDefs.h" //contains waypoint struct
 
 
+//forward declaration to prevent circular dependencies
+namespace AU_UAV_ROS{
+	class PlaneObject;
+}
 
-#ifndef FSQUARED_H
-#define FSQUARED_H
 
 namespace fsquared{
 
@@ -44,7 +47,7 @@ namespace fsquared{
 	typedef struct	{
 		double x;
 		double y;
-	} Coordinates;	
+	} relativeCoordinates;
 
 	//-------------------------------
 	//Forces
@@ -90,17 +93,17 @@ namespace fsquared{
 	 *		enemy: Plane that is producing the field
 	 *		fieldAngle: fieldAngle is the angle between the bearing of the plane generating the force to the location
 	 *		of pobj1, and aAngle is the angle between the bearing of pobj1 and the location of its destination?
-	 *Returns:	Coordinates of "me" from the enemy's POV. 
+	 *Returns:	relativeCoordinates of "me" from the enemy's POV.
 	 *TODO
 	 *		Make the function return a coordinate
 	 *who:		vw
 	*/
-	 Coordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy, double fieldAngle);
+	 relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy, double fieldAngle);
 
 
 	/*
 	 *Precondition: Assume valid planes
-	 *Use: 	Given a pair of coordinates of "me", will see if "me" is located inside
+	 *Use: 	Given a pair of relativeCoordinates of "me", will see if "me" is located inside
 	 *		enemy field.
 	 *Params:
 	 *		enemy: Plane that is producing the field
@@ -110,7 +113,7 @@ namespace fsquared{
 	 *		make and associate with field object
 	 *who:		ac
 	*/
-	bool inEnemyField(AU_UAV_ROS::PlaneObject &enemy, Coordinates locationOfMe);
+	bool inEnemyField(AU_UAV_ROS::PlaneObject &enemy, relativeCoordinates locationOfMe);
 
 
 
