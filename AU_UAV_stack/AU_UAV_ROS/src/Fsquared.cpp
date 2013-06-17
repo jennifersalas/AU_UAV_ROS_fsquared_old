@@ -69,34 +69,32 @@ double fsquared::findFieldAngle(AU_UAV_ROS::PlaneObject& me, AU_UAV_ROS::PlaneOb
  */
 
 AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy){
-/*
-	
-   ->> debugging still needed
-   	double fieldAngle, rMagnitude, rAngle;
+   	double fieldAngle, planeAngle, rMagnitude, rAngle;
 	fsquared::relativeCoordinates relativePosition;
+	bool insideEnemyField;
 
 
-	fieldAngle = findFieldAngle(me, enemy);
+	fieldAngle = fsquared::findFieldAngle(me, enemy);
+	//find the angle from enemy's position to "me"s position
+	planeAngle = enemy.findAngle(me);
 	//find "me" coordinates from enemy's POV
-	relativePosition = findRelativePosition(me, enemy, fieldAngle);
+	relativePosition = fsquared::findRelativePosition(me, enemy);
 	//determine whether or not "me" is in enemy's field
-	insideEnemyField = inEnemyField(enemy, relativePosition);
+	insideEnemyField = fsquared::inEnemyField(enemy, relativePosition, fieldAngle, planeAngle);
 	//if "me" is in enemy field
 	if(insideEnemyField){
 		//calculate the force exerted by the field on "me"
-		rMagnitude = enemy.getField()->findFieldForceMagnitude(relativePosition);
+		rMagnitude = enemy.getField()->findForceMagnitude(relativePosition);
 		//calculate the angle of the force exerted by the field onto me
-		rAngle = toCartesian(enemy.findAngle(me) - 180);
-		mathVector repulsiveForceVector(rMagnitude, rAngle);
+		rAngle = toCartesian(planeAngle - 180);
+		AU_UAV_ROS::mathVector repulsiveForceVector(rMagnitude, rAngle);
 		return repulsiveForceVector;
 	}
 	//"me" is not in the enemy's field, return a vector with 0 magnitude (no contribution to force)
 	else{
-		mathVector repulsiveForceVector(0,0);
-		return repulisveForceVector;
+		AU_UAV_ROS::mathVector repulsiveForceVector(0,0);
+		return repulsiveForceVector;
 	}
-
-	*/
 }
 
 /* Assumptions:
@@ -124,4 +122,44 @@ AU_UAV_ROS::mathVector calculateAttractiveForce(AU_UAV_ROS::PlaneObject &me, AU_
 	//construct the attractrive force vector and return it
 	AU_UAV_ROS::mathVector attractiveForceVector(aMagnitude, aAngle);
 	return attractiveForceVector;
+}
+
+
+/*
+*Precondition: Assume valid planes
+*Use: Find "me's" position from enemy's POV
+*Params:
+* me: Plane that is potentially in enemy's field
+* enemy: Plane that is producing the field
+*Returns: relativeCoordinates in meters of "me" from the enemy's POV, where enemy's bearing is towards the positive y axis.
+*Implementation:
+*
+*who: vw
+*/
+fsquared::relativeCoordinates fsquared::findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy ){
+	fsquared::relativeCoordinates loc;
+
+	double distance = enemy.findDistance(me);
+	double fieldAngle = fsquared::findFieldAngle(me, enemy);
+
+	//Find Y axis coordinate (in front or behind enemey)
+	loc.y = cos(fieldAngle*PI/180.0)*distance;
+
+	//Find X Axis coordinate (to the left or right)
+	loc.x = sin(fieldAngle*PI/180.0)*distance;
+
+	return loc;
+}
+
+/* Assumptions:
+ * 		Enemy plane has a properly initialized field
+ * 	Description:
+ * 		All calculations are handeled by the ForceField class, so this function
+ * 		retrieves the ForceField associated with a plane and then calls the
+ * 		appropriate method to determine whether or not a point is in a specific
+ * 		field
+ */
+bool fsquared::inEnemyField(AU_UAV_ROS::PlaneObject &enemy, fsquared::relativeCoordinates locationOfMe, double fieldAngle, double planeAngle){
+	ForceField * enemyField = enemy.getField();
+	return enemyField->areCoordinatesInMyField(locationOfMe, fieldAngle, planeAngle);
 }

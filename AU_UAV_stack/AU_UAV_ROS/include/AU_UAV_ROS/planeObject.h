@@ -75,13 +75,6 @@ namespace AU_UAV_ROS {
             /*This method will adjust the field of the plane to specificiations provided by the arguements*/
             void setField(int encodedFieldShape, int encodedFieldFunction);
 
-            /*
-            /* Finds the magnitude of the force that this plane's field exerts at a relative coordinate/
-            double findMyFieldForceMagnitude(fsquared::relativeCoordinates relativePosition);
-
-            /* Determines if the set of relativeCoordinates lie within this plane's field /
-            bool isInMyField(fsquared::relativeCoordinates relativePosition, double fieldAngle);
-            */
         private:
             /* Private data members */
             int id;

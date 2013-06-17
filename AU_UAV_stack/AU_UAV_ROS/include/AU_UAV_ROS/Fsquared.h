@@ -100,22 +100,21 @@ namespace fsquared{
 	 *		Make the function return a coordinate
 	 *who:		vw
 	*/
-	 relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy, double fieldAngle);
+	 relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);
 
 
 	/*
-	 *Precondition: Assume valid planes
+	 *Precondition: Assume enemy has a valid field initialized
 	 *Use: 	Given a pair of relativeCoordinates of "me", will see if "me" is located inside
 	 *		enemy field.
 	 *Params:
 	 *		enemy: Plane that is producing the field
 	 *		locationOfMe: Coordinate location of "me" from the POV of the enemy. 
 	 *				Calculated by findRelativePosition()
-	 *TODO:
-	 *		make and associate with field object
+
 	 *who:		ac
 	*/
-	bool inEnemyField(AU_UAV_ROS::PlaneObject &enemy, relativeCoordinates locationOfMe);
+	bool inEnemyField(AU_UAV_ROS::PlaneObject &enemy, relativeCoordinates locationOfMe, double fieldAngle, double planeAngle);
 
 
 

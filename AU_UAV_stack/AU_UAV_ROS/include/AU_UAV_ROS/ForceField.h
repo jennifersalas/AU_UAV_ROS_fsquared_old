@@ -105,6 +105,7 @@ public:
 private:
 	/* Credit:
 	 * 		Hosea Siu and Miriam Figueroa- the 2012 REU group that worked on APFs & flocking (move this later)
+	 * 		the shapeVariables struct contains the constants needed to define an ovoid
 	 */
 	struct shapeVariables
 	{
@@ -150,6 +151,7 @@ public:
 
 
 private:
+	//constants needed to define the bivariate normal force function
 	struct forceVariables{
 		double maxForce;				// maximum force imposed by one plane on another, except when they are in conflict radius
 		// alpha and beta are parameters that define the bivariate normal potential field
