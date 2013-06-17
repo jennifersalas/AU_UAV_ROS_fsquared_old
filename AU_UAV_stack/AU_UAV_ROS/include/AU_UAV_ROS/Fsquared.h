@@ -98,9 +98,7 @@ namespace fsquared{
 	 *		me: Plane that is potentially in enemy's field
 	 *		enemy: Plane that is producing the field
 	 *Returns:	relativeCoordinates of "me" from the enemy's POV.
-	 *TODO
-	 *		Make the function return a coordinate
-	 *who:		vw
+	 *who:		vw (DONE, tested)
 	*/
 	 relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);	
 	 
