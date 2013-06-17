@@ -61,7 +61,7 @@ private:
 
 class FieldShape{
 public:
-	virtual ~FieldShape();
+	virtual ~FieldShape(){};
 
 
 	//Precondition: None
@@ -76,7 +76,7 @@ public:
 	//		planeAngle:	angle between the two planes, calculated starting from the generating
 	//					plane and going to the plane that will feel the force
 
-	virtual bool areCoordinatesInThisShape(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle) =0;
+	virtual bool internal_areCoordinatesInMyField(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle) =0;
 
 
 
@@ -86,8 +86,10 @@ public:
 	 * 			a set of points is
 	 * 		This method can be used to build field functions that are dependent
 	 * 			on their field shape
+	 *	TODO:
+	 *		Implement if we choose a FieldFunction that is dependent on FieldShape
 	 */
-	virtual double distanceToLimit(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle);
+	 //virtual double distanceToLimit(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle);
 };
 
 
@@ -98,7 +100,7 @@ public:
 class OvalField : public FieldShape{
 public:
 	OvalField();
-	bool areCoordinatesInThisShape(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle);
+	bool internal_areCoordinatesInMyField(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle);
 
 private:
 	/* Credit:
@@ -134,7 +136,7 @@ private:
  */
 class FieldFunction{
 public:
-	virtual ~FieldFunction();
+	virtual ~FieldFunction(){};
 	virtual double findFieldFunctionMagnitude(fsquared::relativeCoordinates positionInField) =0;
 };
 

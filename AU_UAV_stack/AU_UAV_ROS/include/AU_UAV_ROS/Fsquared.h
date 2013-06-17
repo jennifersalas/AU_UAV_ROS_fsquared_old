@@ -66,6 +66,8 @@ namespace fsquared{
 	 *				
 	 *
 	 *todo:		ac
+	 *todo:		add field angle as param
+	 *todo:
 	*/
 	AU_UAV_ROS::mathVector calculateRepulsiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);
 

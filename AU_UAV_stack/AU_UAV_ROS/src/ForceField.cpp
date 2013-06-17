@@ -37,7 +37,7 @@ ForceField::ForceField(){
  * 		a relative coordinate lies within this ForceField's zone of influence
  */
 bool ForceField::areCoordinatesInMyField(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle){
-	return myShape->areCoordinatesInThisShape(positionInField, fieldAngle, planeAngle);
+	return myShape->internal_areCoordinatesInMyField(positionInField, fieldAngle, planeAngle);
 }
 
 /* findForceMagnitude
@@ -70,7 +70,7 @@ OvalField::OvalField(){
 	shapeParams.betaBot = 1.6;
 }
 
-bool OvalField::areCoordinatesInThisShape(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle){
+bool OvalField::internal_areCoordinatesInMyField(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle){
 	int x = positionInField.x;
 	int y = positionInField.y;
 	if (fieldAngle > 90 && fieldAngle <270){
