@@ -8,7 +8,7 @@ Description:
 
 Date: 6/12/13
 
-
+.
 FUTURE/WORK IN PROGRESS:
 		Add in different field configurations and functions as needed
 */
