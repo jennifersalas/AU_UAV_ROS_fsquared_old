@@ -2,7 +2,9 @@
  * fsquared_test
  *
  * let's test some stuff
+ * 
  * team 1 2013  
+ * Andrew Cunningham and Victoria Wu
  */
 
 #include <gtest/gtest.h>
@@ -19,13 +21,13 @@ class F_Squared_tester: public ::testing::Test	{
 			enemy.setCurrentLoc(0,0,0);	
 			enemy.setCurrentBearing(0);	//going north	
 
-			northPlane.setCurrentLoc(0, 100, 0);
+			northPlane.setCurrentLoc(100, 0, 0);
 			northPlane.setCurrentBearing(0);
-			eastPlane.setCurrentLoc(100, 0, 0);
+			eastPlane.setCurrentLoc(0, 100, 0);
 			eastPlane.setCurrentBearing(0);
-			southPlane.setCurrentLoc(0, -100, 0);
+			southPlane.setCurrentLoc(-100, 0, 0);
 			southPlane.setCurrentBearing(0);
-			westPlane.setCurrentLoc(-100,0 , 0);
+			westPlane.setCurrentLoc(0,-100, 0);
 			westPlane.setCurrentBearing(0);
 		}
 
@@ -37,6 +39,14 @@ class F_Squared_tester: public ::testing::Test	{
 
 };
 
+
+TEST_F(F_Squared_tester, findingFieldAngle)	{
+	int tempAngle;
+	EXPECT_EQ(90, fsquared::findFieldAngle(eastPlane,enemy) );	
+	EXPECT_EQ(-90, fsquared::findFieldAngle(westPlane,enemy) );	
+	EXPECT_EQ(0, fsquared::findFieldAngle(northPlane,enemy) );	
+	//EXPECT_TRUE((tempAngle = fsquared::findFieldAngle(southPlane,enemy)==180||tempAngle==-180 );	
+}
 
 class VectorStuff : public ::testing::Test	{
 
