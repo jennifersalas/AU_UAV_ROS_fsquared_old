@@ -42,8 +42,14 @@ namespace AU_UAV_ROS{
 namespace fsquared{
 
 
-	//Coordinates
-	//Units- ???
+	/*
+	 * Coordinates
+	 * Used to calculate relative position of a plane to another plane.
+	 * If coordinate frame is defined so the positive y axis is always in the direction of the bearing of a plane,
+	 * then x is if another plane is to the left/right
+	 * 	y is if another plane is in front of/behind
+	 */
+
 	typedef struct	{
 		double x;
 		double y;
@@ -92,7 +98,8 @@ namespace fsquared{
 	 *		me: Plane that is potentially in enemy's field
 	 *		enemy: Plane that is producing the field
 	 *		fieldAngle: fieldAngle is the angle between the bearing of the plane generating the force to the location
-	 *		of pobj1, and aAngle is the angle between the bearing of pobj1 and the location of its destination?
+	 *			of me, where -180 < x < 0 = me is CCW from enemey's bearing
+	 *			and 0 < x < 180 is CW from enemey's bearing 
 	 *Returns:	relativeCoordinates of "me" from the enemy's POV.
 	 *TODO
 	 *		Make the function return a coordinate
@@ -124,7 +131,7 @@ namespace fsquared{
 	 *		me: Plane that is potentially in enemy's field
 	 *		enemy: Plane that is producing the field
 	 *Returns:	Field Angle - angle between my bearing and location of enemy plane
-	 *who:		vw
+	 *who:		vw - DONE, TESTED
 	 */
 	double findFieldAngle(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);
 
