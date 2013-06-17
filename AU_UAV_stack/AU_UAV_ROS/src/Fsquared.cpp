@@ -24,8 +24,8 @@ Date: 6/13/13
  * params:		me: plane that is potentially in enemy's field
  * 			enemy: plane that is producing field
  * returns:		field angle - angle between enemy's bearing and my location.
- * 				0 < x < 180 = to enemy's right
- * 				-180 < x < 0= to enemy's left 
+ * 				0  < x < 180  = to enemy's right
+ * 				-180< x < 0= to enemy's left 
  *
  * note: Different from AU_UAV_ROS::PlaneObject::findAngle(). FindAngle finds
  * the angle between the relative position vector from one plane to another and the
@@ -44,6 +44,36 @@ double fsquared::findFieldAngle(AU_UAV_ROS::PlaneObject& me, AU_UAV_ROS::PlaneOb
 	//Find angle between two vectors
 	return enemyBearing.findAngleBetween(positionToMe); 
 }
+
+/*
+ *Precondition: Assume valid planes
+ *Use: Find "me's" position from enemy's POV
+ *Params:
+ *		me: Plane that is potentially in enemy's field
+ *		enemy: Plane that is producing the field
+ *Returns:	relativeCoordinates in meters of "me" from the enemy's POV, where enemy's bearing is towards the positive y axis.
+ *Implementation:
+ *			
+ *who:		vw
+*/
+
+fsquared::relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy )	{
+
+	fsquared::relativeCoordinates loc;
+	
+	double distance = enemy.findDistance(me);	
+	double fieldAngle = fsquared::findFieldAngle(me, enemy);
+	
+	//Find Y axis coordinate (in front or behind enemey)
+	loc.y = cos(fieldAngle*PI/180.0)*distance;
+
+	//Find X Axis coordinate (to the left or right)
+	loc.x = sin(fieldAngle*PI/180.0)*distance;
+
+	return loc;
+}
+
+
 
 /* Assumptions:
  * 		Only calculates radially repuslive forces from enemy to "me"

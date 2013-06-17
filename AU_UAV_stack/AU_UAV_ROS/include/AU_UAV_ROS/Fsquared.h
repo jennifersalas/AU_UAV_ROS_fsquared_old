@@ -43,7 +43,7 @@ namespace fsquared{
 
 
 	/*
-	 * Coordinates
+	 * Coordinates in meters
 	 * Used to calculate relative position of a plane to another plane.
 	 * If coordinate frame is defined so the positive y axis is always in the direction of the bearing of a plane,
 	 * then x is if another plane is to the left/right
@@ -97,15 +97,14 @@ namespace fsquared{
 	 *Params:
 	 *		me: Plane that is potentially in enemy's field
 	 *		enemy: Plane that is producing the field
-	 *		fieldAngle: fieldAngle is the angle between the bearing of the plane generating the force to the location
-	 *			of me, where -180 < x < 0 = me is CCW from enemey's bearing
-	 *			and 0 < x < 180 is CW from enemey's bearing 
 	 *Returns:	relativeCoordinates of "me" from the enemy's POV.
 	 *TODO
 	 *		Make the function return a coordinate
 	 *who:		vw
 	*/
-	 relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy, double fieldAngle);
+	 relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);	
+	 
+	
 
 
 	/*
