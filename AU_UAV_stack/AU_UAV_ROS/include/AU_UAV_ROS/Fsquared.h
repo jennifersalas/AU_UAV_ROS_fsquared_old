@@ -137,6 +137,19 @@ namespace fsquared{
 	bool inEnemyField(AU_UAV_ROS::PlaneObject &enemy, relativeCoordinates locationOfMe);
 
 
+
+	/* 
+	 *Precondition: Assume valid planes
+	 *Use: Calculates the relative angle needed to find the relative position of "me" to enemy
+	 *Params:
+	 *		me: Plane that is potentially in enemy's field
+	 *		enemy: Plane that is producing the field
+	 *Returns:	Field Angle - angle between my bearing and location of enemy plane
+	 *who:		vw - DONE, TESTED
+	 */
+	double findFieldAngle(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);
+
+
 	//-------------------------------
 	//Waypoint generation
 	//-------------------------------
