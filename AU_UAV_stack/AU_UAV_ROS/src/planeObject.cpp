@@ -25,7 +25,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(void) {
 	this->destination.latitude = 0.0;
 	this->destination.longitude = 0.0;
 	this->destination.altitude = 0.0;
-	this->lastUpdateTime = ros::Time::now().toSec();
+	//this->lastUpdateTime = ros::Time::now().toSec(); commented out to allow for testing
 	this->collisionRadius = 0.0;
 	this->setField(0,0); //initialize field to default configuration
 }
@@ -45,7 +45,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(double cRadius, const AU_UAV_ROS::Telemetry
 	this->destination.latitude = msg.destLatitude;
 	this->destination.longitude = msg.destLongitude;
 	this->destination.altitude = msg.destAltitude;
-	this->lastUpdateTime = ros::Time::now().toSec();
+	//this->lastUpdateTime = ros::Time::now().toSec(); commented out to run tests
 	this->collisionRadius = cRadius;
 	this->setField(0,0); //initialize field to default configuration
 }
@@ -150,6 +150,7 @@ double AU_UAV_ROS::PlaneObject::findDistance(const AU_UAV_ROS::PlaneObject& plan
 }
 
 
+
 /* Find distance between this plane and another pair of coordinates, 
 returns value in meters */
 double AU_UAV_ROS::PlaneObject::findDistance(double lat2, double lon2) const {
@@ -185,6 +186,14 @@ double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
  */
 void AU_UAV_ROS::PlaneObject::setField(int encodedFieldShape, int encodedFieldFunction){
 	planeField = new ForceField();
+}
+
+/*This method will adjust the field of the plane to a specific field setup
+ * TODO:
+ * 		DELETE PREVIOUS FIELD
+ */
+void AU_UAV_ROS::PlaneObject::setField(ForceField * newField){
+	planeField = newField;
 }
 
 ForceField* AU_UAV_ROS::PlaneObject::getField(){
