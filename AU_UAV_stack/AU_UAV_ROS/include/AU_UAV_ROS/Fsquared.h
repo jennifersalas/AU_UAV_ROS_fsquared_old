@@ -3,8 +3,8 @@ Authors: Andrew Cunningham
 		 Victoria Wu
 
 Description:
-		This is an implementation of the fsquared algorithm for collision avoidance and detection
-
+		This is an implementation of the distributed fsquared algorithm for collision avoidance and detection
+		
 Date: 6/12/13
 
 TODO:
@@ -29,8 +29,13 @@ Organize in nodes for hardware
 #ifndef FSQUARED_H
 #define FSQUARED_H
 
+//ROS Includes
 #include "AU_UAV_ROS/vmath.h" 		 //MOVE ME IN
 #include "AU_UAV_ROS/standardDefs.h" //contains waypoint struct
+
+//fsquared constants
+#define WP_GEN_SCALAR 3		//how far generated waypoint will be 
+
 
 
 //forward declaration to prevent circular dependencies
@@ -91,6 +96,19 @@ namespace fsquared{
 	//Fields
 	//-------------------------------
 
+
+	/* 
+	 *Precondition: Assume valid planes
+	 *Use: Calculates the relative angle needed to find the relative position of "me" to enemy
+	 *Params:
+	 *		me: Plane that is potentially in enemy's field
+	 *		enemy: Plane that is producing the field
+	 *Returns:	Field Angle - angle between my bearing and location of enemy plane
+	 *who:		vw - DONE, TESTED
+	 */
+	double findFieldAngle(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);
+
+
 	/*
 	 *Precondition: Assume valid planes
 	 *Use: Find "me's" position from enemy's POV
@@ -102,7 +120,6 @@ namespace fsquared{
 	*/
 	 relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);	
 	 
-	
 
 
 	/*
@@ -120,46 +137,19 @@ namespace fsquared{
 	bool inEnemyField(AU_UAV_ROS::PlaneObject &enemy, relativeCoordinates locationOfMe);
 
 
-
-	/* 
-	 *Precondition: Assume valid planes
-	 *Use: Calculates the relative angle needed to find the relative position of "me" to enemy
-	 *Params:
-	 *		me: Plane that is potentially in enemy's field
-	 *		enemy: Plane that is producing the field
-	 *Returns:	Field Angle - angle between my bearing and location of enemy plane
-	 *who:		vw - DONE, TESTED
-	 */
-	double findFieldAngle(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy);
-
-
 	//-------------------------------
 	//Waypoint generation
 	//-------------------------------
 
 	/*
-	 *Precondition: motionVector has been normalized
-	 *Use: Converts from directional vector to a waypoint for a physical plane
-	 *	   waypoint should be far enough away so that the plane will travel in
-	 *	   the correct direction but not reach the waypoint
+	 *Precondition: Valid waypoint for me_loc 
+	 *Use: Converts from desired angle heading to a waypoint. Distance to generated waypoint dependent on previously defined scalar WP_GEN_SCALAR. 
 	 *Params:
-	 *		motionVector: Vector describing the direction of motion that the plane should take
+	 *		motionAngle: angle between [0,360), CCW from positive x axis (longitude axis)
+	 *		me_coor: "me's" current location 
 	 *tood:		vw
 	 */
-	AU_UAV_ROS::waypoint motionVectorToWaypoint_Hardware(AU_UAV_ROS::mathVector motionVector);
-
-
-	/*
-	 *Precondition: motionVector has been normalized
-	 *Use: Converts from directional vector to a waypoint for a simulated plane
-	 *	   The waypoint represents the position of the simulated UAV in the next
-	 *	   time step
-	 *Params:
-	 *		motionVector: Vector describing the direction of motion that the plane should take
-	 *todo: 	vw
-  	 */
-	AU_UAV_ROS::waypoint motionVectorToWaypoint_Software(AU_UAV_ROS::mathVector motionVector);
-
+	AU_UAV_ROS::waypoint motionVectorToWaypoint(double angle, AU_UAV_ROS::waypoint me_loc); 
 
 }
 
