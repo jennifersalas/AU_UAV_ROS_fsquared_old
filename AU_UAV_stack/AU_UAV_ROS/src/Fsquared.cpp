@@ -23,35 +23,6 @@ Date: 6/13/13
 //-----------------------------------------
 
 
-/*
- *Precondition: Assume valid planes
- *Use: Find "me's" position from enemy's POV
- *Params:
- *		me: Plane that is potentially in enemy's field
- *		enemy: Plane that is producing the field
- *Returns:	relativeCoordinates in meters of "me" from the enemy's POV, where enemy's bearing is towards the positive y axis.
- *Implementation:
- *			
- *who:		vw
-*/
-
-fsquared::relativeCoordinates findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy )	{
-
-	fsquared::relativeCoordinates loc;
-	
-	double distance = enemy.findDistance(me);	
-	double fieldAngle = fsquared::findFieldAngle(me, enemy);
-	
-	//Find Y axis coordinate (in front or behind enemey)
-	loc.y = cos(fieldAngle*PI/180.0)*distance;
-
-	//Find X Axis coordinate (to the left or right)
-	loc.x = sin(fieldAngle*PI/180.0)*distance;
-
-	return loc;
-}
-
-
 
 /* Assumptions:
  * 		Only calculates radially repuslive forces from enemy to "me"
