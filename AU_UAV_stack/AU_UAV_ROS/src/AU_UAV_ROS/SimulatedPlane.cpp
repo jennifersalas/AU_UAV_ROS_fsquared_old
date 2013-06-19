@@ -20,7 +20,7 @@ C) Any collision avoidance waypoints
 //improvements - Phil Ammirato 2013
 #define VELOCITY (MPS_SPEED/TELEMETRY_FREQUENCY)
 #define MAX_TURN_ANGLE (MAX_ANGLE_OF_BANK/TELEMETRY_FREQUENCY)
-#define ANGLE CONSTANT (pow (sin ((VELOCITY/EARTH_RADIUS)/2.0), 2)
+#define ANGLE_CONSTANT (pow (sin ((VELOCITY/EARTH_RADIUS)/2.0), 2))
 
 
 //standard constructor, shouldn't really be used
@@ -156,7 +156,7 @@ bool AU_UAV_ROS::SimulatedPlane::fillTelemetryUpdate(AU_UAV_ROS::TelemetryUpdate
 			if(diff1 < diff2)
 			{
 				if(this->bearing > this->actualBearing) mod = MAX_TURN_ANGLE ;
-				else mod = 0 - MAXIMUM_TURNING_ANGLE;
+				else mod = 0 - MAX_TURN_ANGLE;
 			}
 			else
 			{
