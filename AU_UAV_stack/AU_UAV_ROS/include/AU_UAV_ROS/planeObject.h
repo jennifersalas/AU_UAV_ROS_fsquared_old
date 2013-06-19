@@ -75,6 +75,9 @@ namespace AU_UAV_ROS {
             /*This method will adjust the field of the plane to specificiations provided by the arguements*/
             void setField(int encodedFieldShape, int encodedFieldFunction);
 
+            /*This method will adjust the field of the plane to a specific field*/
+            void setField(ForceField * newField);
+
         private:
             /* Private data members */
             int id;
