@@ -81,6 +81,7 @@ namespace	{
 			 */
 			enemy.setCurrentLoc(ENEMY_LAT,ENEMY_LONG,0);
 			enemy.setCurrentBearing(0);	//going north
+			enemy.setField(defaultField);
 			meNorth.setCurrentLoc(ENEMY_LAT + (DELTA/500), ENEMY_LONG, 0);
 			meNorth.setCurrentBearing(0);
 			meEast.setCurrentLoc(ENEMY_LAT, ENEMY_LONG + (DELTA/500) , 0);
@@ -143,12 +144,12 @@ namespace	{
 	 */
 
 	TEST_F(F_Squared_tester, calculateRepulsiveForces_planeTooFar){
-		/* Don't know why, but this test doesn't work
+		// Don't know why, but this test doesn't work
 		//northPlane and enemy are too far away for enemy to exert a force on
 		AU_UAV_ROS::mathVector repulsiveForce;
 		repulsiveForce = fsquared::calculateRepulsiveForce(northPlane, enemy);
 		ASSERT_DOUBLE_EQ(0, repulsiveForce.getMagnitude()) << "Error: Far away plane should not contribute to repulsive force";
-		*/
+
 	}
 
 
