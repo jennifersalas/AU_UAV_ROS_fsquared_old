@@ -189,9 +189,9 @@ double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
  * 		DELETE PREVIOUS FIELD
  * 		Enable choosing multiple field setups, this method will currently only call one field type
  */
-//void AU_UAV_ROS::PlaneObject::setField(int encodedFieldShape, int encodedFieldFunction){
-//	planeField = new ForceField();
-//}
+void AU_UAV_ROS::PlaneObject::setField(int encodedFieldShape, int encodedFieldFunction){
+	planeField = new ForceField();
+}
 
 /*This method will adjust the field of the plane to a specific field setup
  * TODO:
@@ -202,7 +202,7 @@ void AU_UAV_ROS::PlaneObject::setField(ForceField * newField){
 }
 
 ForceField* AU_UAV_ROS::PlaneObject::getField(){
-	return planeField;
+	return this->planeField;
 }
 /*
 double AU_UAV_ROS::PlaneObject::findMyFieldForceMagnitude(fsquared::relativeCoordinates relativePosition){

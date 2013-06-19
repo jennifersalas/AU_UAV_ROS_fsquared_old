@@ -70,10 +70,10 @@ namespace AU_UAV_ROS {
             *************************************************************************************************/
 
             /*Field Accessor, will return the plane's field*/
-            //ForceField* getField();
+            ForceField* getField();
 
             /*This method will adjust the field of the plane to specificiations provided by the arguements*/
-            //void setField(int encodedFieldShape, int encodedFieldFunction);
+            void setField(int encodedFieldShape, int encodedFieldFunction);
 
             /*This method will adjust the field of the plane to a specific field*/
             void setField(ForceField * newField);
@@ -89,7 +89,7 @@ namespace AU_UAV_ROS {
             AU_UAV_ROS::coordinate previousLoc;	/*used to calculate currentBearing*/
             AU_UAV_ROS::coordinate currentLoc;
             AU_UAV_ROS::waypoint destination;
-            //ForceField * planeField;	/*Points to field object that handles field calls*/
+            ForceField * planeField;	/*Points to field object that handles field calls*/
     };
 };
 
