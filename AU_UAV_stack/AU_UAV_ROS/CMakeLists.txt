@@ -84,5 +84,9 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 rosbuild_add_library(fsquared src/ForceField.cpp src/Fsquared.cpp src/vmath.cpp src/planeObject.cpp src/standardFuncs.cpp)
 
 #Testing and stuff
-rosbuild_add_gtest(test/Fsquared_test test/FSquared_test.cpp)
-target_link_libraries(test/Fsquared_test fsquared)
+#rosbuild_add_gtest(test/Fsquared_test test/FSquared_test.cpp)
+#target_link_libraries(test/Fsquared_test fsquared)
+rosbuild_add_gtest(test/ForceShape_test test/ForceShape_test.cpp)
+target_link_libraries(test/ForceShape_test fsquared)
+rosbuild_add_gtest(test/andrew_Fsquared_test test/andrew_Fsquared_test.cpp)
+target_link_libraries(test/andrew_Fsquared_test fsquared)
