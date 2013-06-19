@@ -31,7 +31,7 @@ ForceField::ForceField(){
 	myFunction = new BivariateNormal();
 }
 
-/* areCoordinatesInMyField
+/* areCoordinatesInMyField(...)
  * Description:
  * 		Calls the ForceField's FieldShape member to determine whether or not
  * 		a relative coordinate lies within this ForceField's zone of influence
@@ -40,7 +40,7 @@ bool ForceField::areCoordinatesInMyField(fsquared::relativeCoordinates positionI
 	return myShape->internal_areCoordinatesInMyField(positionInField, fieldAngle, planeAngle);
 }
 
-/* findForceMagnitude
+/* findForceMagnitude(...)
  * Description:
  * 		Calls the ForceField's FieldFunction member to determine the force exerted
  * 		by the ForceField on a set of coordiates.
@@ -70,6 +70,18 @@ OvalField::OvalField(){
 	shapeParams.betaBot = 1.6;
 }
 
+//internal_areCoordinatesInMyField(...)
+//Precondition: None
+//Use:
+//		This method will determine whether or not coordinates are inside
+//		this field
+//Params:
+//		positionInField: coordinate of the plane that will feel the force
+//						 relative to the position of the plane generating the field
+//		fieldAngle: bearing of the plane generating the field - angle between the plane
+//					genereating the field and the plane that will feel the force
+//		planeAngle:	angle between the two planes, calculated starting from the generating
+//					plane and going to the plane that will feel the force
 bool OvalField::internal_areCoordinatesInMyField(fsquared::relativeCoordinates positionInField, double fieldAngle, double planeAngle){
 	int x = positionInField.x;
 	int y = positionInField.y;
