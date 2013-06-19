@@ -5,6 +5,7 @@
 #include "ros/ros.h"
 #include "AU_UAV_ROS/planeObject.h"
 #include "AU_UAV_ROS/SimulatedPlane.h"
+#include <math.h>
 #include "AU_UAV_ROS/standardFuncs.h" /* for PI, EARTH_RADIUS in meters */
 //#include "AU_UAV_ROS/ForceField.h"
 #include <math.h>
