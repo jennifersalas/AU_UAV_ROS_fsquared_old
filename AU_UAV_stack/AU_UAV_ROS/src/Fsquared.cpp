@@ -17,95 +17,6 @@ Date: 6/13/13
 #include "AU_UAV_ROS/planeObject.h"
 #define ATTRACTIVE_FORCE 100
 
-
-//-----------------------------------------
-//Forces
-//-----------------------------------------
-
-
-
-/* Assumptions:
- * 		Only calculates radially repuslive forces from enemy to "me"
- *
- * Pseudocode:
- * 		find "me" coordinates from enemy's POV
- *		check to see if these coordinates are within enemy's field
- *		if "me" is in the enemys field
- *			find the repulisve force
- *		else
- *			the repulsive force imparted by enemy has magnitude 0
- *
- * Variables:
- * 		fieldAngle: angle between the bearing of the plane generating the force to the location
- *		rMagnitude: magnitude of the repuslive force vector
- *		rAngle:		angle of repulsive force
- *		relativePosition: x and y difference in position between me and enemy from
- *						  enemy's POV
- *
- * TODO:
- * 		Add a feel function
- * 		Incorporate "right hand turn" rules
- */
-
-AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy){
-/*
-	
-   ->> debugging still needed
-   	double fieldAngle, rMagnitude, rAngle;
-	fsquared::relativeCoordinates relativePosition;
-
-
-	fieldAngle = findFieldAngle(me, enemy);
-	//find "me" coordinates from enemy's POV
-	relativePosition = findRelativePosition(me, enemy, fieldAngle);
-	//determine whether or not "me" is in enemy's field
-	insideEnemyField = inEnemyField(enemy, relativePosition);
-	//if "me" is in enemy field
-	if(insideEnemyField){
-		//calculate the force exerted by the field on "me"
-		rMagnitude = enemy.getField()->findFieldForceMagnitude(relativePosition);
-		//calculate the angle of the force exerted by the field onto me
-		rAngle = toCartesian(enemy.findAngle(me) - 180);
-		mathVector repulsiveForceVector(rMagnitude, rAngle);
-		return repulsiveForceVector;
-	}
-	//"me" is not in the enemy's field, return a vector with 0 magnitude (no contribution to force)
-	else{
-		mathVector repulsiveForceVector(0,0);
-		return repulisveForceVector;
-	}
-
-	*/
-}
-
-/* Assumptions:
- * 		The magnitude of the attractive force to the waypoint is defined correctly
- *
- * Pseudocode:
- * 		Find angle to waypoint
- * 		Set magnitude of attractive force
- * 		Return force vector
- *
- * Credit:
- * 		Derived from 2012 APF Group
- *
- */
-
-AU_UAV_ROS::mathVector calculateAttractiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::waypoint goal_wp){
-	double aAngle, aMagnitude, destLat, destLon, currentLat, currentLon;
-	//obtain current location by accessing PlaneObject's current coordinate
-	currentLat = me.getCurrentLoc().latitude;
-	currentLon = me.getCurrentLoc().longitude;
-	destLat = goal_wp.latitude;
-	destLon = goal_wp.longitude;
-	aAngle = toCartesian(findAngle(currentLat, currentLon, destLat, destLon));
-	aMagnitude = ATTRACTIVE_FORCE;
-	//construct the attractrive force vector and return it
-	AU_UAV_ROS::mathVector attractiveForceVector(aMagnitude, aAngle);
-	return attractiveForceVector;
-}
-
-
 //-----------------------------------------
 //Fields
 //-----------------------------------------
@@ -186,8 +97,8 @@ AU_UAV_ROS::waypoint motionVectorToWaypoint(double angle, AU_UAV_ROS::waypoint m
 	double y_delta_meters = WP_GEN_SCALAR*sin(angle*PI/180.0); 
 
 	//Calculate new waypoint 
-	double dest_wp_lat = me_loc.latitude + (x_delta_meters*METERS_TO_DELTA_LAT);
-	double dest_wp_long = me_loc.longitude + (y_delta_meters*METERS_TO_DELTA_LON);
+	double dest_wp_long= me_loc.longitude+ (x_delta_meters*METERS_TO_DELTA_LON);
+	double dest_wp_lat= me_loc.latitude+ (y_delta_meters*METERS_TO_DELTA_LAT);
 	dest_wp.longitude = dest_wp_long;
 	dest_wp.latitude = dest_wp_lat;	
 	dest_wp.altitude = me_loc.altitude;
