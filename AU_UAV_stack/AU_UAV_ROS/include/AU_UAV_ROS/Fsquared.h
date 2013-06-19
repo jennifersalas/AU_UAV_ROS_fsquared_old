@@ -32,6 +32,9 @@ Organize in nodes for hardware
 #include "AU_UAV_ROS/vmath.h" 		 //MOVE ME IN
 #include "AU_UAV_ROS/standardDefs.h" //contains waypoint struct
 
+#define ATTRACTIVE_FORCE 100 //defines the magnitude of the attractive force to a
+							 //waypoint
+
 
 //forward declaration to prevent circular dependencies
 namespace AU_UAV_ROS{
