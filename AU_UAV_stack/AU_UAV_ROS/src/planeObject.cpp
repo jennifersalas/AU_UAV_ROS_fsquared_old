@@ -178,10 +178,14 @@ double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
 	//Get angle in degrees, in range [-180 to 180] in cartesian coordinate frame
 	double degrees =  atan2(ydiff, xdiff)*180.0/PI;
 
+	//added in an attempt to get test to work
+	return degrees;
+
 }
 
 /*This method will adjust the field of the plane to specificiations provided by the arguements
  * TODO:
+ * 		DELETE PREVIOUS FIELD
  * 		Enable choosing multiple field setups, this method will currently only call one field type
  */
 void AU_UAV_ROS::PlaneObject::setField(int encodedFieldShape, int encodedFieldFunction){
