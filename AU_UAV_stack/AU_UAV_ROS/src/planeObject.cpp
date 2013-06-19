@@ -25,7 +25,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(void) {
 	this->destination.latitude = 0.0;
 	this->destination.longitude = 0.0;
 	this->destination.altitude = 0.0;
-	//this->lastUpdateTime = ros::Time::now().toSec(); commented out to allow for testing
+	this->lastUpdateTime = ros::Time::now().toSec(); //commented out to allow for testing
 	this->collisionRadius = 0.0;
 	this->setField(0,0); //initialize field to default configuration
 }
@@ -45,7 +45,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(double cRadius, const AU_UAV_ROS::Telemetry
 	this->destination.latitude = msg.destLatitude;
 	this->destination.longitude = msg.destLongitude;
 	this->destination.altitude = msg.destAltitude;
-	//this->lastUpdateTime = ros::Time::now().toSec(); commented out to run tests
+	this->lastUpdateTime = ros::Time::now().toSec(); //commented out to run tests
 	this->collisionRadius = cRadius;
 	this->setField(0,0); //initialize field to default configuration
 }
