@@ -15,7 +15,7 @@ Date: 6/13/13
 
 #include "AU_UAV_ROS/Fsquared.h"
 #include "AU_UAV_ROS/planeObject.h"
-#define ATTRACTIVE_FORCE 100
+
 
 
 /*
@@ -86,7 +86,7 @@ AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject
 		//calculate the force exerted by the field on "me"
 		rMagnitude = enemy.getField()->findForceMagnitude(relativePosition);
 		//calculate the angle of the force exerted by the field onto me
-		rAngle = toCartesian(planeAngle - 180);
+		rAngle = planeAngle; //changed from toCartesian(planeAngle - 180) to planeAngle
 		AU_UAV_ROS::mathVector repulsiveForceVector(rMagnitude, rAngle);
 		return repulsiveForceVector;
 	}
@@ -110,7 +110,7 @@ AU_UAV_ROS::mathVector fsquared::calculateRepulsiveForce(AU_UAV_ROS::PlaneObject
  *
  */
 
-AU_UAV_ROS::mathVector calculateAttractiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::waypoint goal_wp){
+AU_UAV_ROS::mathVector fsquared::calculateAttractiveForce(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::waypoint goal_wp){
 	double aAngle, aMagnitude, destLat, destLon, currentLat, currentLon;
 	//obtain current location by accessing PlaneObject's current coordinate
 	currentLat = me.getCurrentLoc().latitude;
