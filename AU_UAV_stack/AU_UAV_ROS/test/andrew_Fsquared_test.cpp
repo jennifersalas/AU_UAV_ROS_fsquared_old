@@ -76,18 +76,18 @@ namespace	{
 		calculateRepulsiveForce_tester(){
 
 			/* plane setup
-			 * set me and enemy to face north and set me to be 11 meters to
+			 * set me and enemy to face north and set me to be 1.1 meters to
 			 * the north of enemy
 			 */
 			enemy.setCurrentLoc(ENEMY_LAT,ENEMY_LONG,0);
 			enemy.setCurrentBearing(0);	//going north
-			meNorth.setCurrentLoc(ENEMY_LAT + (DELTA/50), ENEMY_LONG, 0);
+			meNorth.setCurrentLoc(ENEMY_LAT + (DELTA/500), ENEMY_LONG, 0);
 			meNorth.setCurrentBearing(0);
-			meEast.setCurrentLoc(ENEMY_LAT, ENEMY_LONG + (DELTA/50) , 0);
+			meEast.setCurrentLoc(ENEMY_LAT, ENEMY_LONG + (DELTA/500) , 0);
 			meEast.setCurrentBearing(0);
-			meSouth.setCurrentLoc(ENEMY_LAT -(DELTA/50), ENEMY_LONG, 0);
+			meSouth.setCurrentLoc(ENEMY_LAT -(DELTA/500), ENEMY_LONG, 0);
 			meSouth.setCurrentBearing(0);
-			meWest.setCurrentLoc(ENEMY_LAT ,ENEMY_LONG -(DELTA/50), 0);
+			meWest.setCurrentLoc(ENEMY_LAT ,ENEMY_LONG -(DELTA/500), 0);
 			meWest.setCurrentBearing(0);
 
 
@@ -160,13 +160,26 @@ namespace	{
 		verifyRepulsiveForce(meWest, enemy, defaultField, 180);
 	}
 
+	/* Description:
+	 * 		This test checks to make sure that the maximum magnitude of the force
+	 * 		function is located at the location of enemy.  It accopmlishes this by
+	 * 		starting near the location of enemy and then comparing points that are
+	 * 		further and further away and ensuring that further away points result
+	 * 		in a lower force magnitude
+	 */
+	 /*TEST_F(calculateRepulsiveForce_tester, calculateRepulsiveForces_slidingDistance_verifyMagnitude){
+		while()
+
+
+
+	}*/
 
 
 
 	/* Description:
 	 * 		This group tests the calculateAttractiveForces function by setting the goal waypoint
-	 * 		to the enemy's position and verifying the force magnitude and angle that the
-	 * 		North, East, South and West planes feel
+	 * 		to the enemy's position and verifying that the force magnitude and angle that the
+	 * 		North, East, South and West planes feel are correct
 	 */
 	TEST_F(F_Squared_tester, calculateAttractiveForces){
 
