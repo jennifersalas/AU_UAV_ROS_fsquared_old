@@ -6,7 +6,7 @@
 #include "AU_UAV_ROS/planeObject.h"
 #include "AU_UAV_ROS/SimulatedPlane.h"
 #include "AU_UAV_ROS/standardFuncs.h" /* for PI, EARTH_RADIUS in meters */
-#include "AU_UAV_ROS/ForceField.h"
+//#include "AU_UAV_ROS/ForceField.h"
 #include <math.h>
 
 /* Implementation of the default constructor: Member variables are set to zero */
@@ -27,7 +27,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(void) {
 	this->destination.altitude = 0.0;
 	//this->lastUpdateTime = ros::Time::now().toSec(); commented out to allow for testing
 	this->collisionRadius = 0.0;
-	this->setField(0,0); //initialize field to default configuration
+	//this->setField(0,0); //initialize field to default configuration
 }
 /* Explicit value constructor using TelemetryUpdate */
 AU_UAV_ROS::PlaneObject::PlaneObject(double cRadius, const AU_UAV_ROS::TelemetryUpdate &msg) {
@@ -47,7 +47,7 @@ AU_UAV_ROS::PlaneObject::PlaneObject(double cRadius, const AU_UAV_ROS::Telemetry
 	this->destination.altitude = msg.destAltitude;
 	//this->lastUpdateTime = ros::Time::now().toSec(); commented out to run tests
 	this->collisionRadius = cRadius;
-	this->setField(0,0); //initialize field to default configuration
+	//this->setField(0,0); //initialize field to default configuration
 }
 
 /* mutator functions to update member variables */
@@ -181,6 +181,7 @@ double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
 	//added in an attempt to get test to work
 	return degrees;
 
+	return degrees;
 }
 
 /*This method will adjust the field of the plane to specificiations provided by the arguements
@@ -188,9 +189,9 @@ double AU_UAV_ROS::PlaneObject::findAngle(double lat2, double lon2) const {
  * 		DELETE PREVIOUS FIELD
  * 		Enable choosing multiple field setups, this method will currently only call one field type
  */
-void AU_UAV_ROS::PlaneObject::setField(int encodedFieldShape, int encodedFieldFunction){
-	planeField = new ForceField();
-}
+//void AU_UAV_ROS::PlaneObject::setField(int encodedFieldShape, int encodedFieldFunction){
+//	planeField = new ForceField();
+//}
 
 /*This method will adjust the field of the plane to a specific field setup
  * TODO:
@@ -203,7 +204,6 @@ void AU_UAV_ROS::PlaneObject::setField(ForceField * newField){
 ForceField* AU_UAV_ROS::PlaneObject::getField(){
 	return planeField;
 }
-
 /*
 double AU_UAV_ROS::PlaneObject::findMyFieldForceMagnitude(fsquared::relativeCoordinates relativePosition){
 	return planeField->findFieldForceMagnitude(relativePosition);

@@ -16,7 +16,9 @@ Date: 6/13/13
 #include "AU_UAV_ROS/Fsquared.h"
 #include "AU_UAV_ROS/planeObject.h"
 
-
+//-----------------------------------------
+//Fields
+//-----------------------------------------
 
 /*
  * findFieldAngle
@@ -24,8 +26,8 @@ Date: 6/13/13
  * params:		me: plane that is potentially in enemy's field
  * 			enemy: plane that is producing field
  * returns:		field angle - angle between enemy's bearing and my location.
- * 				0 < x < 180 = to enemy's right
- * 				-180 < x < 0= to enemy's left 
+ * 				0  < x < 180  = to enemy's right
+ * 				-180< x < 0= to enemy's left 
  *
  * note: Different from AU_UAV_ROS::PlaneObject::findAngle(). FindAngle finds
  * the angle between the relative position vector from one plane to another and the
@@ -126,15 +128,15 @@ AU_UAV_ROS::mathVector fsquared::calculateAttractiveForce(AU_UAV_ROS::PlaneObjec
 
 
 /*
-*Precondition: Assume valid planes
-*Use: Find "me's" position from enemy's POV
-*Params:
-* me: Plane that is potentially in enemy's field
-* enemy: Plane that is producing the field
-*Returns: relativeCoordinates in meters of "me" from the enemy's POV, where enemy's bearing is towards the positive y axis.
-*Implementation:
-*
-*who: vw
+ *Precondition: Assume valid planes
+ *Use: Find "me's" position from enemy's POV
+ *Params:
+ *		me: Plane that is potentially in enemy's field
+ *		enemy: Plane that is producing the field
+ *Returns:	relativeCoordinates in meters of "me" from the enemy's POV, where enemy's bearing is towards the positive y axis.
+ *Implementation:
+ *			
+ *who:		vw
 */
 fsquared::relativeCoordinates fsquared::findRelativePosition(AU_UAV_ROS::PlaneObject &me, AU_UAV_ROS::PlaneObject &enemy ){
 	fsquared::relativeCoordinates loc;
@@ -163,3 +165,31 @@ bool fsquared::inEnemyField(AU_UAV_ROS::PlaneObject &enemy, fsquared::relativeCo
 	ForceField * enemyField = enemy.getField();
 	return enemyField->areCoordinatesInMyField(locationOfMe, fieldAngle, planeAngle);
 }
+//-----------------------------------------
+//Waypoint Generation
+//-----------------------------------------
+
+/*
+ *Precondition: Valid waypoint for me_loc 
+ *Use: Converts from desired angle heading to a waypoint. Distance to generated waypoint dependent on previously defined scalar WP_GEN_SCALAR. 
+ *Params:
+ *		motionAngle: angle between [0,360), CCW from positive x axis (longitude axis)
+ *		me_coor: "me's" current location 
+ *tood:		vw
+ */
+AU_UAV_ROS::waypoint motionVectorToWaypoint(double angle, AU_UAV_ROS::waypoint me_loc) {
+	AU_UAV_ROS::waypoint dest_wp;
+
+	//Find relative offset for new waypoint.
+	double x_delta_meters = WP_GEN_SCALAR*cos(angle*PI/180.0); 
+	double y_delta_meters = WP_GEN_SCALAR*sin(angle*PI/180.0); 
+
+	//Calculate new waypoint 
+	double dest_wp_long= me_loc.longitude+ (x_delta_meters*METERS_TO_DELTA_LON);
+	double dest_wp_lat= me_loc.latitude+ (y_delta_meters*METERS_TO_DELTA_LAT);
+	dest_wp.longitude = dest_wp_long;
+	dest_wp.latitude = dest_wp_lat;	
+	dest_wp.altitude = me_loc.altitude;
+	return dest_wp;	
+}
+

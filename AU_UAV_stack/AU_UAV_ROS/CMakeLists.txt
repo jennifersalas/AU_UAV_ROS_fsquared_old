@@ -81,7 +81,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 #------------
 #FSQUARED Library
 #Attempt at making life easier, and only compiling our f^2 library.
-rosbuild_add_library(fsquared src/ForceField.cpp src/Fsquared.cpp src/vmath.cpp src/planeObject.cpp src/standardFuncs.cpp)
+#rosbuild_add_library(fsquared src/ForceField.cpp src/Fsquared.cpp src/vmath.cpp src/planeObject.cpp src/standardFuncs.cpp)
+rosbuild_add_library(fsquared src/Fsquared.cpp src/vmath.cpp src/planeObject.cpp src/standardFuncs.cpp)
 
 #Testing and stuff
 #rosbuild_add_gtest(test/Fsquared_test test/FSquared_test.cpp)
